@@ -1,0 +1,52 @@
+.primary-heading {
+  font-size: 4.4rem;
+  font-weight: 600;
+  letter-spacing: -0.15rem;
+  color: #f4f4f4;
+  margin-bottom: 3.2rem;
+  line-height: 1.15;
+}
+
+.para-sm {
+  font-size: 1.6rem;
+  line-height: 1.4;
+  color: #f4f4f4;
+  margin-bottom: 3.2rem;
+}
+
+.btn-custom {
+  display: inline-block;
+  border: none;
+  border-radius: 5rem;
+  font-size: 1.6rem;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.35s;
+}
+
+.btn--big {
+  padding: 1.5rem 4rem;
+}
+
+.btn--hero {
+  background-color: #f4f4f4;
+  color: #666 !important;
+}
+
+.btn--hero:hover {
+  background-color: #fff;
+  color: #333 !important;
+  transform: scale(1.05);
+}
+
+@media (max-width: 59em) {
+  html {
+    font-size: 56.25%;
+  }
+}
+
+@media (max-width: 34em) {
+  html {
+    font-size: 50%;
+  }
+}
