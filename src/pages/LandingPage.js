@@ -3,6 +3,8 @@ import React from 'react';
 import Navbar from '../components/ui/Navbar';
 import HeroSection from '../components/landing_page/HeroSection';
 import FeatureSection from '../components/landing_page/FeatureSection';
+import CTASection from '../components/landing_page/CTASection';
+import Footer from '../components/ui/Footer';
 
 const LandingPage = () => {
   return (
@@ -10,6 +12,8 @@ const LandingPage = () => {
       <Navbar />
       <HeroSection />
       <FeatureSection />
+      <CTASection />
+      <Footer />
     </React.Fragment>
   );
 };
