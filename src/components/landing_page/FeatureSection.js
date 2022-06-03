@@ -17,7 +17,7 @@ const FeatureSection = () => {
     {
       title: 'Book Spot',
       description:
-        'You can book the spot for picnicking and camping by going through various places and finding the one which is best for your choice.',
+        'You can book the spot for picnicking and camping by going through various places and finding the one which is best for your choice. Among hundreds of spots, you are able to choose the destination you prefer.',
       icon: <BookmarkIcon />,
     },
     {
