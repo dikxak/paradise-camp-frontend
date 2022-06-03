@@ -1,10 +1,28 @@
-.primary-heading {
-  font-size: 4.4rem;
+::-moz-selection {
+  background: #393e23;
+  color: #fff;
+}
+
+::selection {
+  background: #393e23;
+  color: #fff;
+}
+
+.primary-heading,
+.secondary-heading {
   font-weight: 600;
-  letter-spacing: -0.15rem;
-  color: #f4f4f4;
+  letter-spacing: -0.1rem;
   margin-bottom: 3.2rem;
   line-height: 1.15;
+}
+
+.primary-heading {
+  font-size: 4.4rem;
+  color: #f4f4f4;
+}
+
+.secondary-heading {
+  font-size: 3.6rem;
 }
 
 .para-sm {
@@ -12,6 +30,11 @@
   line-height: 1.4;
   color: #f4f4f4;
   margin-bottom: 3.2rem;
+}
+
+.para-md {
+  font-size: 2.4rem;
+  line-height: 1.4;
 }
 
 .grid {
