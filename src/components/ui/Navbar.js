@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { NavLink } from 'react-router-dom';
+
 import logo256 from '../../assets/images/logo-256.png';
 
 import styles from './Navbar.module.css';
@@ -32,13 +34,12 @@ const Navbar = () => {
         <div className={`collapse navbar-collapse`} id="navbarSupportedContent">
           <ul className="navbar-nav ms-auto py-2 mx-3 text-center">
             <li className="nav-item mx-3">
-              <a
+              <NavLink
+                to={'/login'}
                 className="nav-link nav-link-login my-2 px-3 py-3"
-                aria-current="page"
-                href="/"
               >
                 Login
-              </a>
+              </NavLink>
             </li>
             <li className="nav-item">
               <a
