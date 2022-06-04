@@ -1,14 +1,14 @@
 import React from 'react';
 
-import Navbar from '../components/ui/Navbar';
-import Footer from '../components/ui/Footer';
-import Form from '../components/ui/Form';
-import Input from '../components/ui/Input';
-import Button from '../components/ui/Button';
+import Navbar from '../../components/ui/Navbar/Navbar';
+import Footer from '../../components/ui/Footer/Footer';
+import Form from '../../components/ui/Form/Form';
+import Input from '../../components/ui/Input/Input';
+import Button from '../../components/ui/Button/Button';
 
 import styles from './LoginPage.module.css';
 
-import loginImg from '../assets/images/login-img.jpg';
+import loginImg from '../../assets/images/login-img.jpg';
 
 const LoginPage = () => {
   return (

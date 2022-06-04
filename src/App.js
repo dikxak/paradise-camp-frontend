@@ -2,8 +2,8 @@ import React from 'react';
 
 import { Routes, Route } from 'react-router-dom';
 
-import LandingPage from './pages/LandingPage';
-import LoginPage from './pages/LoginPage';
+import LandingPage from './pages/LandingPage/LandingPage';
+import LoginPage from './pages/LoginPage/LoginPage';
 
 const App = () => {
   return (
