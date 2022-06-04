@@ -15,7 +15,7 @@
 
 .nav-link-signup {
   background-color: #75813d;
-  border-radius: 0.5rem;
+  border-radius: 0.5rem !important;
   color: #fff !important;
 }
 

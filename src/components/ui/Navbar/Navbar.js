@@ -10,7 +10,7 @@ const Navbar = () => {
   return (
     <nav className={`navbar navbar-expand-lg ${styles['bg-custom']}`}>
       <div className="container-fluid">
-        <a className="navbar-brand py-1 mx-3" href="/">
+        <NavLink to="/" className="navbar-brand py-1 mx-3">
           <img
             src={logo256}
             alt="ParadiseCamp Logo"
@@ -19,7 +19,7 @@ const Navbar = () => {
             className="d-inline-block align-text-center"
           />
           <span className={styles['logo-text']}>ParadiseCamp</span>
-        </a>
+        </NavLink>
         <button
           className="navbar-toggler mx-3"
           type="button"
@@ -42,12 +42,12 @@ const Navbar = () => {
               </NavLink>
             </li>
             <li className="nav-item">
-              <a
+              <NavLink
+                to={'/signup'}
                 className={`nav-link ${styles['custom-nav-link']} ${styles['nav-link-signup']} my-2 px-3 py-3`}
-                href="/"
               >
                 Sign Up
-              </a>
+              </NavLink>
             </li>
           </ul>
         </div>

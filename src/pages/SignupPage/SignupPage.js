@@ -41,8 +41,14 @@ const LoginPage = () => {
           placeholder="••••••••"
           label="Password"
         />
+        <Input
+          id="confirmPassword"
+          type="password"
+          placeholder="••••••••"
+          label="Confirm password"
+        />
         <Button className={`${styles['btn--signup']}`} type="submit">
-          Login
+          sign up
         </Button>
       </Form>
       <Footer />

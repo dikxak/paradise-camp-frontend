@@ -36,7 +36,8 @@
 
 .cta-signup {
   background-color: #555;
-  color: #fff;
+  color: #fff !important;
+  text-align: center;
 
   position: relative;
 }

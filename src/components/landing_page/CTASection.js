@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { NavLink } from 'react-router-dom';
+
 import styles from './CTASection.module.css';
 
 const CTASection = () => {
@@ -13,15 +15,17 @@ const CTASection = () => {
         spots.
       </p>
       <div className={`${styles['cta-action-container']}`}>
-        <button className={`btn-custom ${styles['cta-signup']}`}>
+        <NavLink to="/signup" className={`btn-custom ${styles['cta-signup']}`}>
           Sign Up
-        </button>
+        </NavLink>
 
         <div className={styles['cta-login-container']}>
           <span className={styles['cta-login-text']}>
             Already have an account?
           </span>
-          <button className={`btn-custom ${styles['cta-login']}`}>Login</button>
+          <NavLink to="/login" className={`btn-custom ${styles['cta-login']}`}>
+            Login
+          </NavLink>
         </div>
       </div>
     </div>

@@ -44,6 +44,8 @@
   gap: 3.2rem;
 }
 
+a:link,
+a:visited,
 .btn-custom {
   display: inline-block;
   border: none;
@@ -52,6 +54,7 @@
   font-family: inherit;
   cursor: pointer;
   transition: all 0.35s;
+  text-decoration: none;
 }
 
 .btn--big {
