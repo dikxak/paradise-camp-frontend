@@ -8,7 +8,7 @@ import Button from '../../components/ui/Button/Button';
 
 import styles from './SignupPage.module.css';
 
-import loginImg from '../../assets/images/login-img.jpg';
+import loginImg from '../../assets/images/signup-img.jpg';
 
 const LoginPage = () => {
   return (
