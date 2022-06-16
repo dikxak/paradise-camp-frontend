@@ -9,7 +9,9 @@ const Form = props => {
     <Card className={styles['form-container']}>
       <img className={styles['form-img']} src={props.img} alt="Campfire" />
       <h2>{props.heading}</h2>
-      <form className={styles['form']}>{props.children}</form>
+      <form onSubmit={props.onSubmit} className={styles['form']}>
+        {props.children}
+      </form>
     </Card>
   );
 };
