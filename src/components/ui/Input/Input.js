@@ -10,7 +10,7 @@ const Input = props => {
         type={props.type}
         id={props.id}
         placeholder={props.placeholder}
-        onChange={props.onChange}
+        onChange={props.onChanged}
       />
     </div>
   );
