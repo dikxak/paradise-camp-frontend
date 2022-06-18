@@ -76,6 +76,12 @@ a:visited,
   transform: scale(1.05);
 }
 
+.error-message {
+  color: #f03e3e;
+  font-size: 1.6rem;
+  margin-top: -1.6rem;
+}
+
 @media (max-width: 59em) {
   html {
     font-size: 56.25%;
