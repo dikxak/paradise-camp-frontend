@@ -29,7 +29,12 @@ const LoginContextProvider = props => {
     }
   };
 
+  const logoutHandler = () => {
+    setIsLoggedIn(false);
+  };
+
   const loginContext = {
+    logoutHandler,
     isLoggedIn,
     setIsLoggedIn: loginHandler,
     setInvalidCredentials,

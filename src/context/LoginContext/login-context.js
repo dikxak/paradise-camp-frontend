@@ -1,6 +1,7 @@
 import React from 'react';
 
 const LoginContext = React.createContext({
+  logoutHandler: () => {},
   setInvalidCredentials: invalidState => {},
   invalidCredentials: false,
   isLoggedIn: false,
