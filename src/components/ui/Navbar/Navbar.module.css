@@ -19,6 +19,14 @@
   color: #fff !important;
 }
 
+.nav-link-logout {
+  background-color: #fcca2f;
+}
+
+.nav-link-logout:hover {
+  background-color: #fdd559;
+}
+
 .nav-link-signup:hover,
 .nav-link-signup:active {
   background-color: #8f9a57;
