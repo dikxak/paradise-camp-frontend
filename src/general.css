@@ -41,6 +41,13 @@
   display: grid;
 }
 
+.grid--2-cols {
+  grid-template-columns: repeat(2, 1fr);
+  align-items: stretch;
+  justify-content: center;
+  gap: 2.4rem;
+}
+
 .grid--4-cols {
   grid-template-columns: repeat(4, 1fr);
   align-items: stretch;
@@ -96,6 +103,10 @@ a:visited,
     font-size: 50%;
   }
   .grid--4-cols {
+    grid-template-columns: 1fr;
+  }
+
+  .grid--2-cols {
     grid-template-columns: 1fr;
   }
 }
