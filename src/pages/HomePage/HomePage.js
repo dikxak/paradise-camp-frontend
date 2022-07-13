@@ -3,14 +3,20 @@ import axios from 'axios';
 
 import Navbar from '../../components/ui/Navbar/Navbar';
 import HomeSection from './HomeSection/HomeSection';
+import BlogSection from './BlogSection/BlogSection';
 
 const HomePage = props => {
   const [spotDataPicnic, setSpotDataPicnic] = useState([]);
   const [spotDataCamping, setSpotDataCamping] = useState([]);
+  const [blogData, setBlogData] = useState([]);
 
   const getSpotData = async type => {
     const res = await axios.get(`http://localhost:90/spots/type=${type}`);
-    console.log(res.data);
+    return res.data.data;
+  };
+
+  const getBlogData = async () => {
+    const res = await axios.get('http://localhost:90/blogs/all');
     return res.data.data;
   };
 
@@ -19,13 +25,19 @@ const HomePage = props => {
       .then(data => {
         setSpotDataPicnic(data);
       })
-      .catch(err => console.log(err));
+      .catch(err => console.error(err));
 
     getSpotData('Camping')
       .then(data => {
         setSpotDataCamping(data);
       })
-      .catch(err => console.log(err));
+      .catch(err => console.error(err));
+
+    getBlogData()
+      .then(data => {
+        setBlogData(data);
+      })
+      .catch(err => console.error(err));
   }, []);
 
   return (
@@ -36,6 +48,7 @@ const HomePage = props => {
         sectionHeading={'Camping Spots'}
         spotData={spotDataCamping}
       />
+      <BlogSection blogData={blogData} />
     </React.Fragment>
   );
 };
