@@ -1,4 +1,7 @@
-import React, { useReducer, useState } from 'react';
+import React, { useReducer, useState, useContext } from 'react';
+import ReactDOM from 'react-dom';
+
+import axios from 'axios';
 
 import Navbar from '../../components/ui/Navbar/Navbar';
 import Form from '../../components/ui/Form/Form';
@@ -6,10 +9,13 @@ import Input from '../../components/ui/Input/Input';
 import Select from '../../components/ui/Select/Select';
 import Button from '../../components/ui/Button/Button';
 import Footer from '../../components/ui/Footer/Footer';
+import Message from '../../components/ui/Message/Message';
 
 import addLocationImg from '../../assets/images/add-location-img.jpg';
 import styles from './AddLocationPage.module.css';
-import axios from 'axios';
+
+import LoadingContext from '../../context/LoadingSpinnerContext/loading-context';
+import LoadingSpinner from '../../components/ui/LoadingSpinner/LoadingSpinner';
 
 const initialCoordsState = {
   latValue: '',
@@ -79,6 +85,8 @@ const spotEmailReducer = (state, action) => {
 };
 
 const AddLocationPage = () => {
+  const loadingCtx = useContext(LoadingContext);
+
   const [coordsState, dispatchCoords] = useReducer(
     coordsReducer,
     initialCoordsState
@@ -130,6 +138,9 @@ const AddLocationPage = () => {
 
   const [uploadedImage, setUploadedImage] = useState();
 
+  const [isSpotCreated, setIsSpotCreated] = useState(false);
+  const [spotCreateError, setSpotCreateError] = useState(false);
+
   const spotNameChangeHandler = e => {
     dispatchSpotName({ type: 'USER_INPUT', value: e.target.value });
   };
@@ -141,6 +152,7 @@ const AddLocationPage = () => {
   };
 
   const latitudeChangeHandler = e => {
+    console.log(e.target.value);
     dispatchCoords({ type: 'USER_INPUT', latVal: e.target.value });
   };
   const longitudeChangeHandler = e => {
@@ -253,19 +265,72 @@ const AddLocationPage = () => {
     data.append('img', uploadedImage);
 
     try {
+      loadingCtx.setIsLoading(true);
+
       const res = await axios.post('http://localhost:90/spots/add', data, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
       });
+
+      setIsSpotCreated(true);
+      loadingCtx.setIsLoading(false);
+      setSpotCreateError(false);
       console.log(res);
     } catch (err) {
-      console.error(err);
+      if (err.response.data.message) {
+        loadingCtx.setIsLoading(false);
+        setSpotCreateError(true);
+      }
     }
+  };
+
+  const getCurrentPosition = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        e => {
+          dispatchCoords({ type: 'USER_INPUT', lngVal: e.coords.longitude });
+          dispatchCoords({ type: 'USER_INPUT', latVal: e.coords.latitude });
+        },
+        () => {
+          alert('Could not get your position!');
+        }
+      );
+    }
+  };
+
+  const removeMessageHandler = () => {
+    setIsSpotCreated(false);
+    setSpotCreateError(false);
   };
 
   return (
     <React.Fragment>
+      {loadingCtx.isLoading && <LoadingSpinner />}
+      {ReactDOM.createPortal(
+        <Message
+          state={`${
+            spotCreateError ? 'error' : isSpotCreated ? 'success' : ''
+          }`}
+          className={isSpotCreated || spotCreateError ? 'reveal' : ''}
+          message={
+            spotCreateError
+              ? 'Spot name already exists!'
+              : isSpotCreated
+              ? 'Spot created successfully!'
+              : ''
+          }
+          onClick={removeMessageHandler}
+          containerName={
+            spotCreateError
+              ? 'error-message-container'
+              : isSpotCreated
+              ? 'success-message-container'
+              : ''
+          }
+        />,
+        document.getElementById('message-root')
+      )}
       <Navbar />
       <Form
         onSubmit={addLocationFormSubmitHandler}
@@ -326,21 +391,22 @@ const AddLocationPage = () => {
               type="number"
               id="latitude"
               placeholder="Lat value"
-              min="1"
-              step="1"
               onChange={latitudeChangeHandler}
+              value={coordsState.latValue}
             />
 
             <input
               type="number"
               id="longitude"
               placeholder="Lng value"
-              min="1"
-              step="1"
               onChange={longitudeChangeHandler}
+              value={coordsState.lngValue}
             />
 
-            <Button className={styles['btn-coords']}>
+            <Button
+              onClick={getCurrentPosition}
+              className={styles['btn-coords']}
+            >
               Get current location
             </Button>
           </div>
