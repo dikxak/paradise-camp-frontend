@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import axios from 'axios';
@@ -11,17 +11,23 @@ const LoginContextProvider = props => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [invalidCredentials, setInvalidCredentials] = useState(false);
 
+  useEffect(() => {
+    if (localStorage.getItem('token')) {
+      setIsLoggedIn(true);
+    }
+  }, []);
+
   const loginHandler = async (email, password) => {
     try {
       const response = await axios.post('http://localhost:90/users/login', {
         email: email,
         password: password,
       });
-      console.log(response);
 
       if (response.status === 200) {
         navigate('/home');
         setIsLoggedIn(true);
+        localStorage.setItem('token', response.data.token);
       }
     } catch (err) {
       setInvalidCredentials(true);
