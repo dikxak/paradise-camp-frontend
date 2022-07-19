@@ -15,7 +15,7 @@ import LoadingContext from '../../context/LoadingSpinnerContext/loading-context'
 import styles from './SignupPage.module.css';
 
 import loginImg from '../../assets/images/signup-img.jpg';
-import ErrorMessage from '../../components/ui/Error/ErrorMessage';
+import Message from '../../components/ui/Message/Message';
 
 const initialEmailState = {
   value: '',
@@ -205,12 +205,14 @@ const SignupPage = () => {
     <React.Fragment>
       {loadingCtx.isLoading && <LoadingSpinner />}
       {ReactDOM.createPortal(
-        <ErrorMessage
+        <Message
+          containerName={'success-message-container'}
+          state="error"
           className={userExistsError ? 'reveal' : ''}
           message="User already exists"
           onClick={removeErrorMessageHandler}
         />,
-        document.getElementById('error-root')
+        document.getElementById('message-root')
       )}
       <Navbar />
       <Form

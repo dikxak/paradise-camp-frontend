@@ -6,7 +6,7 @@ import Footer from '../../components/ui/Footer/Footer';
 import Form from '../../components/ui/Form/Form';
 import Input from '../../components/ui/Input/Input';
 import Button from '../../components/ui/Button/Button';
-import ErrorMessage from '../../components/ui/Error/ErrorMessage';
+import Message from '../../components/ui/Message/Message';
 
 import LoginContext from '../../context/LoginContext/login-context';
 
@@ -100,7 +100,8 @@ const LoginPage = () => {
   return (
     <React.Fragment>
       {ReactDOM.createPortal(
-        <ErrorMessage
+        <Message
+          containerName={'error-message-container'}
           className={loginCtx.invalidCredentials ? 'reveal' : ''}
           message="Invalid credentials"
           onClick={removeErrorMessageHandler}
