@@ -4,6 +4,7 @@ import axios from 'axios';
 import Navbar from '../../components/ui/Navbar/Navbar';
 import HomeSection from './HomeSection/HomeSection';
 import BlogSection from './BlogSection/BlogSection';
+import Footer from '../../components/ui/Footer/Footer';
 
 const HomePage = props => {
   const [spotDataPicnic, setSpotDataPicnic] = useState([]);
@@ -49,6 +50,7 @@ const HomePage = props => {
         spotData={spotDataCamping}
       />
       <BlogSection blogData={blogData} />
+      <Footer />
     </React.Fragment>
   );
 };
