@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 
 import Navbar from '../../components/ui/Navbar/Navbar';
@@ -11,35 +11,35 @@ const HomePage = props => {
   const [spotDataCamping, setSpotDataCamping] = useState([]);
   const [blogData, setBlogData] = useState([]);
 
-  const getSpotData = async type => {
+  const getSpotData = useCallback(async type => {
     const res = await axios.get(`http://localhost:90/spots/type=${type}`);
     return res.data.data;
-  };
+  }, []);
 
-  const getBlogData = async () => {
+  const getBlogData = useCallback(async () => {
     const res = await axios.get('http://localhost:90/blogs/all');
     return res.data.data;
-  };
+  }, []);
 
   useEffect(() => {
-    getSpotData('Picnic')
-      .then(data => {
-        setSpotDataPicnic(data);
-      })
-      .catch(err => console.error(err));
+    const getAllData = async () => {
+      try {
+        const data = await Promise.all([
+          getSpotData('Picnic'),
+          getSpotData('Camping'),
+          getBlogData(),
+        ]);
 
-    getSpotData('Camping')
-      .then(data => {
-        setSpotDataCamping(data);
-      })
-      .catch(err => console.error(err));
+        setSpotDataPicnic(data[0]);
+        setSpotDataCamping(data[1]);
+        setBlogData(data[2]);
+      } catch (err) {
+        console.error(err.message);
+      }
+    };
 
-    getBlogData()
-      .then(data => {
-        setBlogData(data);
-      })
-      .catch(err => console.error(err));
-  }, []);
+    getAllData();
+  }, [getBlogData, getSpotData]);
 
   return (
     <React.Fragment>
