@@ -47,7 +47,8 @@
   margin-bottom: 2.4rem;
 }
 
-.blog-description-container {
+.blog-description-container,
+.blog-description {
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
