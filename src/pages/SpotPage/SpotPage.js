@@ -28,7 +28,7 @@ const timeAgo = new TimeAgo('en-US');
 const SpotPage = props => {
   const { isLoading, setIsLoading } = useContext(LoadingContext);
 
-  const [individualSpotData, setIndividualSpotData] = useState([]);
+  const [individualSpotData, setIndividualSpotData] = useState();
   const [reviewData, setReviewData] = useState([]);
 
   const { pathname } = useLocation();
@@ -51,6 +51,7 @@ const SpotPage = props => {
 
       setIsLoading(false);
 
+      console.log(data[0].data.spotData);
       setIndividualSpotData(data[0].data.spotData);
       setReviewData(data[1].data.reviewData);
     };
@@ -58,7 +59,7 @@ const SpotPage = props => {
     getAllData();
   }, [pathname, isLoading, setIsLoading]);
 
-  return individualSpotData.length !== 0 ? (
+  return individualSpotData !== undefined ? (
     <React.Fragment>
       <Navbar />
       <section className={`container row mx-auto ${styles['spot-section']}`}>
@@ -171,22 +172,30 @@ const SpotPage = props => {
             </div>
             <div className={styles['review-container']}>
               <h3 className="tertiary-heading">Reviews</h3>
-              {reviewData.map(review => {
-                return (
-                  <div key={review.id} className={styles['review']}>
-                    <p className={styles['review-text']}>{review.reviewText}</p>
-                    <p className={styles['review-info']}>
-                      <span className={styles['review-author']}>
-                        &mdash; {review.userFullName}
-                      </span>{' '}
-                      |{' '}
-                      <span className={styles['review-date']}>
-                        {timeAgo.format(+new Date(review.reviewedDate))}
-                      </span>
-                    </p>
-                  </div>
-                );
-              })}
+              {reviewData.length !== 0 ? (
+                reviewData.map(review => {
+                  return (
+                    <div key={review.id} className={styles['review']}>
+                      <p className={styles['review-text']}>
+                        {review.reviewText}
+                      </p>
+                      <p className={styles['review-info']}>
+                        <span className={styles['review-author']}>
+                          &mdash; {review.userFullName}
+                        </span>{' '}
+                        |{' '}
+                        <span className={styles['review-date']}>
+                          {timeAgo.format(+new Date(review.reviewedDate))}
+                        </span>
+                      </p>
+                    </div>
+                  );
+                })
+              ) : (
+                <p className={styles['empty-review-message']}>
+                  No any reviews yet.
+                </p>
+              )}
             </div>
           </Card>
         </div>
