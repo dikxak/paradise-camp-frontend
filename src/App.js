@@ -11,6 +11,7 @@ import SignupPage from './pages/SignupPage/SignupPage';
 import HomePage from './pages/HomePage/HomePage';
 import AddLocationPage from './pages/AddLocationPage/AddLocationPage';
 import SpotPage from './pages/SpotPage/SpotPage';
+import BlogPage from './pages/BlogPage/BlogPage';
 
 const App = () => {
   return (
@@ -28,6 +29,7 @@ const App = () => {
           <Route path="/home" element={<HomePage />} />
           <Route path="/location/add" element={<AddLocationPage />} />
           <Route path="/location/:id" element={<SpotPage />} />
+          <Route path="/blog/:id" element={<BlogPage />} />
         </Routes>
       </LoadingContextProvider>
     </LoginContextProvider>
