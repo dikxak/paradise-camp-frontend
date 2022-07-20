@@ -32,12 +32,16 @@
   fill: #caa226;
 }
 
-.blog-title {
-  font-size: 2.8rem;
+.blog-title a {
+  font-size: 2.8rem !important;
   font-weight: 600;
   line-height: 1.15;
   letter-spacing: -0.5px;
   margin-bottom: 1.2rem;
+}
+
+.blog-title a:hover {
+  text-decoration: underline;
 }
 
 .blog-subtitle {
@@ -57,4 +61,28 @@
   line-height: 1.5;
   font-size: 1.6rem;
   margin-bottom: 1.8rem;
+}
+
+.view-all-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.view-all-link:link,
+.view-all-link:visited {
+  display: inline-block;
+  margin: auto;
+  font-size: 1.8rem;
+  font-weight: 500;
+  text-align: center;
+  margin-top: 3.2rem;
+  border-radius: 0;
+  border-bottom: 2px solid #75813d;
+  transition: all 0.35s;
+}
+
+.view-all-link:hover,
+.view-all-link:active {
+  border-bottom: 2px solid transparent;
 }
