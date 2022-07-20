@@ -101,6 +101,7 @@ const LoginPage = () => {
     <React.Fragment>
       {ReactDOM.createPortal(
         <Message
+          state="error"
           containerName={'error-message-container'}
           className={loginCtx.invalidCredentials ? 'reveal' : ''}
           message="Invalid credentials"
