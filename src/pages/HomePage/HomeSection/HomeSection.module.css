@@ -8,10 +8,18 @@
 }
 
 .spot-name {
-  font-size: 2rem;
+  /* font-size: 2rem !important; */
   font-weight: 500;
   margin-bottom: 1.6rem;
   color: #75813d;
+}
+
+.spot-name a {
+  font-size: 2rem !important;
+}
+
+.spot-name a:hover {
+  text-decoration: underline;
 }
 
 .spot-description {
