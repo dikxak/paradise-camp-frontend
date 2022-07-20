@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { NavLink } from 'react-router-dom';
+
 import Card from '../../../components/ui/Card/Card';
 
 import UserIcon from '../../../components/icons/UserIcon';
@@ -9,8 +11,6 @@ import styles from './BlogSection.module.css';
 import homeStyles from '../HomePage.module.css';
 
 const BlogSection = props => {
-  console.log('From Blog Section');
-
   return (
     <section className="container overflow-hidden">
       <h3 className={homeStyles['home-heading']}>Blogs</h3>
@@ -44,7 +44,9 @@ const BlogSection = props => {
                       </p>
                     </div>
                   </div>
-                  <h4 className={styles['blog-title']}>{blog.title}</h4>
+                  <h4 className={styles['blog-title']}>
+                    <NavLink to={`/blog/${blog._id}`}>{blog.title}</NavLink>
+                  </h4>
                   <p className={styles['blog-subtitle']}>{blog.subtitle}</p>
 
                   {/* <div className={styles['blog-description-container']}>
@@ -52,12 +54,20 @@ const BlogSection = props => {
                       return <p key={i}>{paragraph}</p>;
                     })}
                   </div> */}
-                  <p className={styles['blog-description']}>{blog.description}</p>
+                  <p className={styles['blog-description']}>
+                    {blog.description}
+                  </p>
                 </div>
               </Card>
             </div>
           );
         })}
+      </div>
+
+      <div className={styles['view-all-container']}>
+        <NavLink to={'/'} className={styles['view-all-link']}>
+          View All Blogs &#8594;
+        </NavLink>
       </div>
     </section>
   );
