@@ -1,11 +1,15 @@
 import React from 'react';
 
+import { NavLink } from 'react-router-dom';
+
 import Card from '../../../components/ui/Card/Card';
 
 import styles from './HomeSection.module.css';
 import homeStyles from '../HomePage.module.css';
 
 const HomeSection = props => {
+  console.log('From Home Section');
+
   return (
     <section className="container overflow-hidden">
       <h3 className={homeStyles['home-heading']}>{props.sectionHeading}</h3>
@@ -25,7 +29,9 @@ const HomeSection = props => {
                   className={`${homeStyles['home-img']} ${styles['spot-img']}`}
                 />
                 <div className={styles['spot-contents']}>
-                  <h4 className={styles['spot-name']}>{data.name}</h4>
+                  <h4 className={styles['spot-name']}>
+                    <NavLink to={`/location/${data._id}`}>{data.name}</NavLink>
+                  </h4>
                   <p className={`${styles['spot-description']}`}>
                     {data.description}
                   </p>
@@ -40,4 +46,4 @@ const HomeSection = props => {
   );
 };
 
-export default HomeSection;
+export default React.memo(HomeSection);
