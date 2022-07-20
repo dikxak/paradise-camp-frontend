@@ -44,12 +44,15 @@ const HomePage = props => {
   return (
     <React.Fragment>
       <Navbar />
-      <HomeSection sectionHeading={'Picnic Spots'} spotData={spotDataPicnic} />
+      <HomeSection
+        sectionHeading={'Picnic Spots'}
+        spotData={spotDataPicnic.slice(0, 10)}
+      />
       <HomeSection
         sectionHeading={'Camping Spots'}
-        spotData={spotDataCamping}
+        spotData={spotDataCamping.slice(0, 10)}
       />
-      <BlogSection blogData={blogData} />
+      <BlogSection blogData={blogData.slice(0, 10)} />
       <Footer />
     </React.Fragment>
   );
