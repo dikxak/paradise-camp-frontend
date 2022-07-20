@@ -8,8 +8,6 @@ import styles from './HomeSection.module.css';
 import homeStyles from '../HomePage.module.css';
 
 const HomeSection = props => {
-  console.log('From Home Section');
-
   return (
     <section className="container overflow-hidden">
       <h3 className={homeStyles['home-heading']}>{props.sectionHeading}</h3>
@@ -41,6 +39,12 @@ const HomeSection = props => {
             </div>
           );
         })}
+      </div>
+
+      <div className={styles['view-all-container']}>
+        <NavLink to={'/'} className={styles['view-all-link']}>
+          View All Spots &#8594;
+        </NavLink>
       </div>
     </section>
   );
