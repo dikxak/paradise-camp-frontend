@@ -106,7 +106,7 @@ const LoginPage = () => {
           message="Invalid credentials"
           onClick={removeErrorMessageHandler}
         />,
-        document.getElementById('error-root')
+        document.getElementById('message-root')
       )}
       <Navbar />
       <Form
