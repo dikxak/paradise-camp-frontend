@@ -183,6 +183,10 @@
   color: #c92a2a;
 }
 
+.empty-review-message {
+  font-size: 1.8rem;
+}
+
 @media (max-width: 34em) {
   .button-book {
     padding: 1.4rem;
