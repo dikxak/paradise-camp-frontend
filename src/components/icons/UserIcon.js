@@ -1,3 +1,5 @@
+import './Icon.css';
+
 const UserIcon = props => {
   return (
     <svg
