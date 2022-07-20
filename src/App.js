@@ -10,6 +10,7 @@ import LoginPage from './pages/LoginPage/LoginPage';
 import SignupPage from './pages/SignupPage/SignupPage';
 import HomePage from './pages/HomePage/HomePage';
 import AddLocationPage from './pages/AddLocationPage/AddLocationPage';
+import SpotPage from './pages/SpotPage/SpotPage';
 
 const App = () => {
   return (
@@ -26,6 +27,7 @@ const App = () => {
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/location/add" element={<AddLocationPage />} />
+          <Route path="/location/:id" element={<SpotPage />} />
         </Routes>
       </LoadingContextProvider>
     </LoginContextProvider>
