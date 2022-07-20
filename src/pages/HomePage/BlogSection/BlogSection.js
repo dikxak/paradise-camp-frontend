@@ -9,6 +9,8 @@ import styles from './BlogSection.module.css';
 import homeStyles from '../HomePage.module.css';
 
 const BlogSection = props => {
+  console.log('From Blog Section');
+
   return (
     <section className="container overflow-hidden">
       <h3 className={homeStyles['home-heading']}>Blogs</h3>
@@ -45,11 +47,12 @@ const BlogSection = props => {
                   <h4 className={styles['blog-title']}>{blog.title}</h4>
                   <p className={styles['blog-subtitle']}>{blog.subtitle}</p>
 
-                  <div className={styles['blog-description-container']}>
+                  {/* <div className={styles['blog-description-container']}>
                     {blog.description.split('\n\n').map((paragraph, i) => {
                       return <p key={i}>{paragraph}</p>;
                     })}
-                  </div>
+                  </div> */}
+                  <p className={styles['blog-description']}>{blog.description}</p>
                 </div>
               </Card>
             </div>
@@ -60,4 +63,4 @@ const BlogSection = props => {
   );
 };
 
-export default BlogSection;
+export default React.memo(BlogSection);
