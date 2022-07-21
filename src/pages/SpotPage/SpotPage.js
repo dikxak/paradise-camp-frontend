@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
 import ReactDOM from 'react-dom';
 import { useNavigate, NavLink, useLocation } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
@@ -45,29 +45,29 @@ const SpotPage = props => {
   const { pathname } = useLocation();
   // console.log(location.pathname.split('/')[2]);
 
-  useEffect(() => {
+  const getAllData = useCallback(async () => {
     const id = pathname.split('/')[2];
+    setIsLoading(true);
 
-    const getAllData = async () => {
-      setIsLoading(true);
+    const data = await Promise.all([
+      axios.get(`http://localhost:90/spots/${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      }),
+      axios.get(`http://localhost:90/reviews/get/all/${id}`),
+    ]);
 
-      const data = await Promise.all([
-        axios.get(`http://localhost:90/spots/${id}`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        }),
-        axios.get(`http://localhost:90/reviews/get/all/${id}`),
-      ]);
+    setIndividualSpotData(data[0].data.spotData);
+    setReviewData(data[1].data.reviewData);
+    console.log(data[1].data.reviewData);
 
-      setIsLoading(false);
+    setIsLoading(false);
+  }, [setIsLoading, pathname]);
 
-      setIndividualSpotData(data[0].data.spotData);
-      setReviewData(data[1].data.reviewData);
-    };
-
+  useEffect(() => {
     getAllData();
-  }, [pathname, isLoading, setIsLoading]);
+  }, [getAllData]);
 
   const reviewChangeHandler = e => {
     setEnteredReviewText(e.target.value);
@@ -120,6 +120,26 @@ const SpotPage = props => {
     }
   };
 
+  const bookSpotHandler = async () => {
+    const id = pathname.split('/')[2];
+
+    try {
+      await axios.post(
+        'http://localhost:90/bookings',
+        { spotId: id },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        }
+      );
+
+      showMessageCtx.setShowMessage(true, 'Spot booked successfully!');
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
   return individualSpotData !== undefined ? (
     <React.Fragment>
       {ReactDOM.createPortal(
@@ -162,7 +182,15 @@ const SpotPage = props => {
                   Rs.{individualSpotData.price}/visit
                 </p>
               </div>
-              <Button className={styles['button-book']}>Book Spot</Button>
+              <Button
+                onClick={bookSpotHandler}
+                disabled={
+                  localStorage.getItem('userId') === individualSpotData.userId
+                }
+                className={styles['button-book']}
+              >
+                Book Spot
+              </Button>
             </div>
             <ul className={styles['spot-info-list']}>
               <li className={styles['spot-info']}>
@@ -272,10 +300,8 @@ const SpotPage = props => {
               {reviewData.length !== 0 ? (
                 reviewData.map(review => {
                   return (
-                    <div key={review.id} className={styles['review']}>
-                      <p className={styles['review-text']}>
-                        {review.reviewText}
-                      </p>
+                    <div key={review._id} className={styles['review']}>
+                      <p className={styles['review-text']}>{review.text}</p>
                       <p className={styles['review-info']}>
                         <span className={styles['review-author']}>
                           &mdash; {review.userFullName}
