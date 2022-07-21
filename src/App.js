@@ -12,6 +12,7 @@ import HomePage from './pages/HomePage/HomePage';
 import AddLocationPage from './pages/AddLocationPage/AddLocationPage';
 import SpotPage from './pages/SpotPage/SpotPage';
 import BlogPage from './pages/BlogPage/BlogPage';
+import AddBlogPage from './pages/AddBlogPage/AddBlogPage';
 
 const App = () => {
   return (
@@ -30,6 +31,7 @@ const App = () => {
           <Route path="/location/add" element={<AddLocationPage />} />
           <Route path="/location/:id" element={<SpotPage />} />
           <Route path="/blog/:id" element={<BlogPage />} />
+          <Route path="/blog/add" element={<AddBlogPage />} />
         </Routes>
       </LoadingContextProvider>
     </LoginContextProvider>
