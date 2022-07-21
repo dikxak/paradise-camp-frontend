@@ -15,6 +15,7 @@ import SpotPage from './pages/SpotPage/SpotPage';
 import BlogPage from './pages/BlogPage/BlogPage';
 import AddBlogPage from './pages/AddBlogPage/AddBlogPage';
 import UpdateLocationPage from './pages/UpdateLocationPage/UpdateLocationPage';
+import UpdateBlogPage from './pages/UpdateBlogPage/UpdateBlogPage';
 
 const App = () => {
   return (
@@ -34,11 +35,12 @@ const App = () => {
             <Route path="/location/add" element={<AddLocationPage />} />
             <Route path="/location/:id" element={<SpotPage />} />
             <Route
-              path="location/update/:id"
+              path="/location/update/:id"
               element={<UpdateLocationPage />}
             />
             <Route path="/blog/:id" element={<BlogPage />} />
             <Route path="/blog/add" element={<AddBlogPage />} />
+            <Route path="/blog/update/:id" element={<UpdateBlogPage />} />
           </Routes>
         </ShowMessageContextProvider>
       </LoadingContextProvider>

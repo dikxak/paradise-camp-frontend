@@ -1,15 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import ReactDOM from 'react-dom';
 
 import axios from 'axios';
-import { useLocation } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 
 import Navbar from '../../components/ui/Navbar/Navbar';
 import Button from '../../components/ui/Button/Button';
 import Footer from '../../components/ui/Footer/Footer';
+import Message from '../../components/ui/Message/Message';
+
+import ShowMessageContext from '../../context/ShowMessageContext/show-message-context';
 
 import styles from './BlogPage.module.css';
 
 const BlogPage = props => {
+  const showMessageCtx = useContext(ShowMessageContext);
+
   const [individualBlogData, setIndividualBlogData] = useState();
 
   const { pathname } = useLocation();
@@ -31,8 +37,22 @@ const BlogPage = props => {
     getBlogData();
   }, [pathname]);
 
+  const removeMessageHandler = () => {
+    showMessageCtx.setShowMessage(false);
+  };
+
   return individualBlogData !== undefined ? (
     <React.Fragment>
+      {ReactDOM.createPortal(
+        <Message
+          containerName={'success-message-container'}
+          state="success"
+          className={showMessageCtx.showMessage ? 'reveal' : ''}
+          message="Blog update successful!"
+          onClick={removeMessageHandler}
+        />,
+        document.getElementById('message-root')
+      )}
       <Navbar />
       <section className={`container ${styles['blog-container']}`}>
         <header>
@@ -71,7 +91,12 @@ const BlogPage = props => {
         <footer>
           {localStorage.getItem('userId') === individualBlogData.userId ? (
             <ul className={styles['user-control-list']}>
-              <Button className={styles['button-update']}>Update Blog</Button>
+              <NavLink
+                to={`/blog/update/${pathname.split('/')[2]}`}
+                className={styles['button-update']}
+              >
+                Update Blog
+              </NavLink>
               <Button className={styles['button-delete']}>Delete Blog</Button>
             </ul>
           ) : (
