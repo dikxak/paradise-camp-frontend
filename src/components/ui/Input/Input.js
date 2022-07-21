@@ -7,6 +7,7 @@ const Input = props => {
     <div className={styles.control}>
       <label htmlFor={props.id}>{props.label}</label>
       <input
+        value={props.value}
         className={
           props.isValid !== undefined && !props.isValid ? styles.invalid : ''
         }
