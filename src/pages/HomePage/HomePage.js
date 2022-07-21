@@ -52,7 +52,7 @@ const HomePage = props => {
         sectionHeading={'Camping Spots'}
         spotData={spotDataCamping.slice(0, 10)}
       />
-      <BlogSection blogData={blogData.slice(0, 10)} />
+      <BlogSection blogData={blogData.slice(0, 6)} />
       <Footer />
     </React.Fragment>
   );
