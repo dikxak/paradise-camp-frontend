@@ -31,3 +31,22 @@
 .nav-link-signup:active {
   background-color: #8f9a57;
 }
+
+.nav-link-username:link,
+.nav-link-username:visited {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  color: #727b46;
+}
+
+.nav-link-username:hover,
+.nav-link-username:active {
+  color: #8f9a57;
+}
+
+.nav-icon {
+  width: 1.6rem !important;
+  height: 1.6rem !important;
+  margin-bottom: 0 !important;
+}

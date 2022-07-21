@@ -25,10 +25,14 @@ const LoginContextProvider = props => {
       });
 
       if (response.status === 200) {
-        navigate('/home');
+        console.log(response);
         setIsLoggedIn(true);
+
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('userId', response.data.userId);
+        localStorage.setItem('userFullName', response.data.userName);
+
+        navigate('/home');
       }
     } catch (err) {
       setInvalidCredentials(true);
@@ -38,8 +42,12 @@ const LoginContextProvider = props => {
 
   const logoutHandler = () => {
     setIsLoggedIn(false);
+
     localStorage.removeItem('token');
     localStorage.removeItem('userId');
+
+    navigate('/');
+    window.location.reload();
   };
 
   const loginContext = {

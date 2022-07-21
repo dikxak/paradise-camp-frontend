@@ -7,6 +7,7 @@ import LoginContext from '../../../context/LoginContext/login-context';
 import logo256 from '../../../assets/images/logo-256.png';
 
 import styles from './Navbar.module.css';
+import UserIcon from '../../icons/UserIcon';
 
 const Navbar = () => {
   const loginCtx = useContext(LoginContext);
@@ -86,10 +87,23 @@ const Navbar = () => {
             {loginCtx.isLoggedIn ? (
               <li className="nav-item mx-3">
                 <NavLink
-                  to={'/locations/all'}
+                  to={'/location/this'}
                   className="nav-link my-2 px-3 py-3"
                 >
                   All Location
+                </NavLink>
+              </li>
+            ) : (
+              ''
+            )}
+            {loginCtx.isLoggedIn ? (
+              <li className="nav-item mx-3">
+                <NavLink
+                  to={'/profile'}
+                  className={`nav-link my-2 px-3 py-3 ${styles['nav-link-username']}`}
+                >
+                  <UserIcon className={styles['nav-icon']} />{' '}
+                  {localStorage.getItem('userFullName')}
                 </NavLink>
               </li>
             ) : (
@@ -127,4 +141,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default React.memo(Navbar);

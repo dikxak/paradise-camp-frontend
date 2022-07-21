@@ -31,6 +31,8 @@ const SpotPage = props => {
   const [individualSpotData, setIndividualSpotData] = useState();
   const [reviewData, setReviewData] = useState([]);
 
+  const [enteredReviewText, setEnteredReviewText] = useState('');
+
   const { pathname } = useLocation();
   // console.log(location.pathname.split('/')[2]);
 
@@ -51,13 +53,33 @@ const SpotPage = props => {
 
       setIsLoading(false);
 
-      console.log(data[0].data.spotData);
       setIndividualSpotData(data[0].data.spotData);
       setReviewData(data[1].data.reviewData);
     };
 
     getAllData();
   }, [pathname, isLoading, setIsLoading]);
+
+  const reviewChangeHandler = e => {
+    setEnteredReviewText(e.target.value);
+  };
+
+  const reviewSubmitHandler = async e => {
+    const res = await axios.post(
+      'http://localhost:90/reviews/add',
+      {
+        text: enteredReviewText,
+        spotId: pathname.split('/')[2],
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      }
+    );
+
+    console.log(res);
+  };
 
   return individualSpotData !== undefined ? (
     <React.Fragment>
@@ -146,7 +168,10 @@ const SpotPage = props => {
             </MapContainer>
 
             <div className={styles['review-control']}>
-              <form className={styles['review-form']}>
+              <form
+                onSubmit={reviewSubmitHandler}
+                className={styles['review-form']}
+              >
                 <label htmlFor="reviewText">Leave a review</label>
                 <textarea
                   id="reviewText"
@@ -158,6 +183,7 @@ const SpotPage = props => {
                   disabled={
                     individualSpotData.userId === localStorage.getItem('userId')
                   }
+                  onChange={reviewChangeHandler}
                 ></textarea>
                 <Button
                   disabled={
