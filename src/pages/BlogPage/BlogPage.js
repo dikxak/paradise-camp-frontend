@@ -11,13 +11,16 @@ import Message from '../../components/ui/Message/Message';
 import WarningCard from '../../components/ui/WarningCard/WarningCard';
 
 import ShowMessageContext from '../../context/ShowMessageContext/show-message-context';
+import LoadingContext from '../../context/LoadingSpinnerContext/loading-context';
 
 import styles from './BlogPage.module.css';
+import LoadingSpinner from '../../components/ui/LoadingSpinner/LoadingSpinner';
 
 const BlogPage = props => {
   const navigate = useNavigate();
 
   const showMessageCtx = useContext(ShowMessageContext);
+  const { isLoading, setIsLoading } = useContext(LoadingContext);
 
   const [individualBlogData, setIndividualBlogData] = useState();
   const [showWarning, setShowWarning] = useState(false);
@@ -28,18 +31,20 @@ const BlogPage = props => {
     const id = pathname.split('/')[2];
 
     const getBlogData = async () => {
+      setIsLoading(true);
+
       const res = await axios.get(`http://localhost:90/blogs/${id}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
       });
 
-      console.log(res.data.data);
       setIndividualBlogData(res.data.data);
+      setIsLoading(false);
     };
 
     getBlogData();
-  }, [pathname]);
+  }, [pathname, setIsLoading]);
 
   const removeMessageHandler = () => {
     showMessageCtx.setShowMessage(false);
@@ -151,7 +156,7 @@ const BlogPage = props => {
       <Footer />
     </React.Fragment>
   ) : (
-    ''
+    isLoading && <LoadingSpinner />
   );
 };
 
