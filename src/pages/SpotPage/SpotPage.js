@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { useLocation } from 'react-router-dom';
+import ReactDOM from 'react-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import axios from 'axios';
 
@@ -11,6 +12,7 @@ import Card from '../../components/ui/Card/Card';
 import Footer from '../../components/ui/Footer/Footer';
 import Navbar from '../../components/ui/Navbar/Navbar';
 import LoadingSpinner from '../../components/ui/LoadingSpinner/LoadingSpinner';
+import Message from '../../components/ui/Message/Message';
 
 import LocationIcon from '../../components/icons/LocationIcon';
 import MobileIcon from '../../components/icons/MobileIcon';
@@ -19,6 +21,7 @@ import EmailIcon from '../../components/icons/EmailIcon';
 import CheckIcon from '../../components/icons/CheckIcon';
 
 import LoadingContext from '../../context/LoadingSpinnerContext/loading-context';
+import ShowMessageContext from '../../context/ShowMessageContext/show-message-context';
 
 import styles from './SpotPage.module.css';
 
@@ -27,6 +30,7 @@ const timeAgo = new TimeAgo('en-US');
 
 const SpotPage = props => {
   const { isLoading, setIsLoading } = useContext(LoadingContext);
+  const showMessageCtx = useContext(ShowMessageContext);
 
   const [individualSpotData, setIndividualSpotData] = useState();
   const [reviewData, setReviewData] = useState([]);
@@ -81,9 +85,24 @@ const SpotPage = props => {
     console.log(res);
   };
 
+  const removeMessageHandler = () => {
+    showMessageCtx.setShowMessage(false);
+  };
+
   return individualSpotData !== undefined ? (
     <React.Fragment>
+      {ReactDOM.createPortal(
+        <Message
+          containerName={'success-message-container'}
+          state="success"
+          className={showMessageCtx.showMessage ? 'reveal' : ''}
+          message="Spot update successful!"
+          onClick={removeMessageHandler}
+        />,
+        document.getElementById('message-root')
+      )}
       <Navbar />
+
       <section className={`container row mx-auto ${styles['spot-section']}`}>
         <div className="col-lg-6">
           <Card>
@@ -132,7 +151,12 @@ const SpotPage = props => {
             </ul>
             {localStorage.getItem('userId') === individualSpotData.userId ? (
               <ul className={styles['user-control-list']}>
-                <Button className={styles['button-update']}>Update Spot</Button>
+                <NavLink
+                  to={`/location/update/${pathname.split('/')[2]}`}
+                  className={styles['button-update']}
+                >
+                  Update Spot
+                </NavLink>
                 <Button className={styles['button-delete']}>Delete Spot</Button>
               </ul>
             ) : (

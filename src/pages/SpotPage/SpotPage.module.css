@@ -80,7 +80,8 @@
   margin-top: 2.4rem;
 }
 
-.button-update,
+.button-update:link,
+.button-update:visited,
 .button-delete {
   padding: 1.2rem 2.4rem;
   border-radius: 1rem !important;
@@ -88,7 +89,8 @@
   color: #fff;
 }
 
-.button-update {
+.button-update:link,
+.button-update:visited {
   background-color: #337649;
 }
 
