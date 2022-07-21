@@ -152,7 +152,7 @@ const UpdateLocationPage = () => {
       });
 
       loadingCtx.setIsLoading(false);
-      showMessageCtx.setShowMessage(true);
+      showMessageCtx.setShowMessage(true, 'Spot update successful!');
       navigate(`/location/${id}`);
     } catch (err) {
       if (err.response.data.message) {

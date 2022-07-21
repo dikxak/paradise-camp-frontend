@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import ReactDOM from 'react-dom';
-import { NavLink, useLocation } from 'react-router-dom';
+import { useNavigate, NavLink, useLocation } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import axios from 'axios';
 
@@ -24,13 +24,18 @@ import LoadingContext from '../../context/LoadingSpinnerContext/loading-context'
 import ShowMessageContext from '../../context/ShowMessageContext/show-message-context';
 
 import styles from './SpotPage.module.css';
+import WarningCard from '../../components/ui/WarningCard/WarningCard';
 
 TimeAgo.addLocale(en);
 const timeAgo = new TimeAgo('en-US');
 
 const SpotPage = props => {
+  const navigate = useNavigate();
+
   const { isLoading, setIsLoading } = useContext(LoadingContext);
   const showMessageCtx = useContext(ShowMessageContext);
+
+  const [showWarning, setShowWarning] = useState(false);
 
   const [individualSpotData, setIndividualSpotData] = useState();
   const [reviewData, setReviewData] = useState([]);
@@ -89,6 +94,32 @@ const SpotPage = props => {
     showMessageCtx.setShowMessage(false);
   };
 
+  const showWarningMessage = () => {
+    setShowWarning(true);
+  };
+
+  const closeWarningMessage = () => {
+    setShowWarning(false);
+  };
+
+  const deleteSpotHandler = async () => {
+    const id = pathname.split('/')[2];
+    console.log(id);
+    try {
+      await axios.delete(`http://localhost:90/spots/delete/${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+
+      showMessageCtx.setShowMessage(true, 'Spot delete successful!');
+
+      navigate('/');
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
   return individualSpotData !== undefined ? (
     <React.Fragment>
       {ReactDOM.createPortal(
@@ -96,11 +127,22 @@ const SpotPage = props => {
           containerName={'success-message-container'}
           state="success"
           className={showMessageCtx.showMessage ? 'reveal' : ''}
-          message="Spot update successful!"
+          message={showMessageCtx.message}
           onClick={removeMessageHandler}
         />,
         document.getElementById('message-root')
       )}
+
+      {showWarning
+        ? ReactDOM.createPortal(
+            <WarningCard
+              onClose={closeWarningMessage}
+              onClick={deleteSpotHandler}
+            />,
+            document.getElementById('message-root')
+          )
+        : ''}
+
       <Navbar />
 
       <section className={`container row mx-auto ${styles['spot-section']}`}>
@@ -157,7 +199,12 @@ const SpotPage = props => {
                 >
                   Update Spot
                 </NavLink>
-                <Button className={styles['button-delete']}>Delete Spot</Button>
+                <Button
+                  onClick={showWarningMessage}
+                  className={styles['button-delete']}
+                >
+                  Delete Spot
+                </Button>
               </ul>
             ) : (
               ''

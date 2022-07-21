@@ -2,7 +2,8 @@ import React from 'react';
 
 const ShowMessageContext = React.createContext({
   showMessage: false,
-  setShowMessage: state => {},
+  message: '',
+  setShowMessage: (state, message) => {},
 });
 
 export default ShowMessageContext;

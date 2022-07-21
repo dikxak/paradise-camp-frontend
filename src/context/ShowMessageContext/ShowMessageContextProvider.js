@@ -4,14 +4,17 @@ import ShowMessageContext from './show-message-context';
 
 const ShowMessageContextProvider = props => {
   const [showMessage, setShowMessage] = useState(false);
+  const [message, setMessage] = useState('');
 
-  const handleMessageState = state => {
+  const handleMessageState = (state, message) => {
     setShowMessage(state);
+    setMessage(message);
   };
 
   const showMessageContext = {
     setShowMessage: handleMessageState,
     showMessage,
+    message,
   };
 
   return (

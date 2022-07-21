@@ -2,21 +2,25 @@ import React, { useState, useEffect, useContext } from 'react';
 import ReactDOM from 'react-dom';
 
 import axios from 'axios';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 
 import Navbar from '../../components/ui/Navbar/Navbar';
 import Button from '../../components/ui/Button/Button';
 import Footer from '../../components/ui/Footer/Footer';
 import Message from '../../components/ui/Message/Message';
+import WarningCard from '../../components/ui/WarningCard/WarningCard';
 
 import ShowMessageContext from '../../context/ShowMessageContext/show-message-context';
 
 import styles from './BlogPage.module.css';
 
 const BlogPage = props => {
+  const navigate = useNavigate();
+
   const showMessageCtx = useContext(ShowMessageContext);
 
   const [individualBlogData, setIndividualBlogData] = useState();
+  const [showWarning, setShowWarning] = useState(false);
 
   const { pathname } = useLocation();
 
@@ -41,6 +45,32 @@ const BlogPage = props => {
     showMessageCtx.setShowMessage(false);
   };
 
+  const showWarningMessage = () => {
+    setShowWarning(true);
+  };
+
+  const closeWarningMessage = () => {
+    setShowWarning(false);
+  };
+
+  const deleteBlogHandler = async () => {
+    const id = pathname.split('/')[2];
+    console.log(id);
+    try {
+      await axios.delete(`http://localhost:90/blogs/delete/${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+
+      showMessageCtx.setShowMessage(true, 'Blog delete successful!');
+
+      navigate('/');
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
   return individualBlogData !== undefined ? (
     <React.Fragment>
       {ReactDOM.createPortal(
@@ -48,11 +78,20 @@ const BlogPage = props => {
           containerName={'success-message-container'}
           state="success"
           className={showMessageCtx.showMessage ? 'reveal' : ''}
-          message="Blog update successful!"
+          message={showMessageCtx.message}
           onClick={removeMessageHandler}
         />,
         document.getElementById('message-root')
       )}
+      {showWarning
+        ? ReactDOM.createPortal(
+            <WarningCard
+              onClose={closeWarningMessage}
+              onClick={deleteBlogHandler}
+            />,
+            document.getElementById('message-root')
+          )
+        : ''}
       <Navbar />
       <section className={`container ${styles['blog-container']}`}>
         <header>
@@ -97,7 +136,12 @@ const BlogPage = props => {
               >
                 Update Blog
               </NavLink>
-              <Button className={styles['button-delete']}>Delete Blog</Button>
+              <Button
+                onClick={showWarningMessage}
+                className={styles['button-delete']}
+              >
+                Delete Blog
+              </Button>
             </ul>
           ) : (
             ''

@@ -95,7 +95,7 @@ const UpdateBlogPage = () => {
       });
 
       loadingCtx.setIsLoading(false);
-      showMessageCtx.setShowMessage(true);
+      showMessageCtx.setShowMessage(true, 'Blog update successful!');
       navigate(`/blog/${id}`);
     } catch (err) {
       if (err.response.data.message) {
