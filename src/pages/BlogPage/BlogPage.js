@@ -57,13 +57,16 @@ const BlogPage = props => {
             alt="Bitcoin"
             className={styles['blog-img']}
           />
-          <div className={styles['blog-description-container']}>
+          {/* <div className={styles['blog-description-container']}>
             {individualBlogData.description
               .split('\n\n')
               .map((paragraph, i) => {
                 return <p key={i}>{paragraph}</p>;
               })}
-          </div>
+          </div> */}
+          <p className={styles['blog-description']}>
+            {individualBlogData.description}
+          </p>
         </main>
         <footer>
           {localStorage.getItem('userId') === individualBlogData.userId ? (

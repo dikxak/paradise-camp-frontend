@@ -27,10 +27,16 @@
   margin-bottom: 2.4rem;
 }
 
-.blog-description-container {
+.blog-description {
   font-size: 1.8rem;
   line-height: 1.5;
+  white-space: pre-line;
 }
+
+/* .blog-description-container {
+  font-size: 1.8rem;
+  line-height: 1.5;
+} */
 
 .user-control-list {
   list-style: none;
