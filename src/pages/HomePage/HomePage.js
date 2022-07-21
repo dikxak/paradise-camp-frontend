@@ -60,9 +60,13 @@ const HomePage = props => {
   };
 
   console.log('rendering');
-  return (
+  return (spotDataCamping.length === 0 ||
+    spotDataPicnic.length === 0 ||
+    blogData.length === 0) &&
+    isLoading ? (
+    <LoadingSpinner />
+  ) : (
     <React.Fragment>
-      {isLoading && <LoadingSpinner />}
       {ReactDOM.createPortal(
         <Message
           containerName={'success-message-container'}
