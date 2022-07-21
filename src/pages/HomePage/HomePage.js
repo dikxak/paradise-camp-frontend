@@ -10,49 +10,59 @@ import Message from '../../components/ui/Message/Message';
 
 import ShowMessageContext from '../../context/ShowMessageContext/show-message-context';
 
+import LoadingContext from '../../context/LoadingSpinnerContext/loading-context';
+import LoadingSpinner from '../../components/ui/LoadingSpinner/LoadingSpinner';
+
 const HomePage = props => {
   const showMessageCtx = useContext(ShowMessageContext);
+  const { setIsLoading, isLoading } = useContext(LoadingContext);
 
   const [spotDataPicnic, setSpotDataPicnic] = useState([]);
   const [spotDataCamping, setSpotDataCamping] = useState([]);
   const [blogData, setBlogData] = useState([]);
 
-  const getSpotData = useCallback(async type => {
+  const getSpotData = async type => {
     const res = await axios.get(`http://localhost:90/spots/type=${type}`);
     return res.data.data;
-  }, []);
+  };
 
-  const getBlogData = useCallback(async () => {
+  const getBlogData = async () => {
     const res = await axios.get('http://localhost:90/blogs/all');
     return res.data.data;
-  }, []);
+  };
+
+  const getAllData = useCallback(async () => {
+    try {
+      setIsLoading(true);
+
+      const data = await Promise.all([
+        getSpotData('Picnic'),
+        getSpotData('Camping'),
+        getBlogData(),
+      ]);
+
+      setSpotDataPicnic(data[0]);
+      setSpotDataCamping(data[1]);
+      setBlogData(data[2]);
+
+      setIsLoading(false);
+    } catch (err) {
+      console.error(err.message);
+    }
+  }, [setIsLoading]);
 
   useEffect(() => {
-    const getAllData = async () => {
-      try {
-        const data = await Promise.all([
-          getSpotData('Picnic'),
-          getSpotData('Camping'),
-          getBlogData(),
-        ]);
-
-        setSpotDataPicnic(data[0]);
-        setSpotDataCamping(data[1]);
-        setBlogData(data[2]);
-      } catch (err) {
-        console.error(err.message);
-      }
-    };
-
     getAllData();
-  }, [getBlogData, getSpotData]);
+  }, [getAllData]);
 
   const removeMessageHandler = () => {
     showMessageCtx.setShowMessage(false, '');
   };
 
+  console.log('rendering');
   return (
     <React.Fragment>
+      {isLoading && <LoadingSpinner />}
       {ReactDOM.createPortal(
         <Message
           containerName={'success-message-container'}
