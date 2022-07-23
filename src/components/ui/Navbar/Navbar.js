@@ -87,7 +87,7 @@ const Navbar = () => {
             {loginCtx.isLoggedIn ? (
               <li className="nav-item mx-3">
                 <NavLink
-                  to={'/location/this'}
+                  to={'/location/all'}
                   className="nav-link my-2 px-3 py-3"
                 >
                   All Location

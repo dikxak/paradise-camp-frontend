@@ -15,6 +15,12 @@
   justify-content: space-between;
 }
 
+.book-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
 .button-book {
   padding: 1.6rem 3.2rem;
   border-radius: 1rem !important;
@@ -185,7 +191,15 @@
   color: #c92a2a;
 }
 
+.error-message {
+  color: #c92a2a;
+}
+
 .empty-review-message {
+  font-size: 1.8rem;
+}
+
+.popup-para {
   font-size: 1.8rem;
 }
 

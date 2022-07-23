@@ -63,12 +63,6 @@ const BlogSection = props => {
           );
         })}
       </div>
-
-      <div className={styles['view-all-container']}>
-        <NavLink to={'/'} className={styles['view-all-link']}>
-          View All Blogs &#8594;
-        </NavLink>
-      </div>
     </section>
   );
 };

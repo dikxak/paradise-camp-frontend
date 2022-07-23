@@ -16,6 +16,7 @@ import BlogPage from './pages/BlogPage/BlogPage';
 import AddBlogPage from './pages/AddBlogPage/AddBlogPage';
 import UpdateLocationPage from './pages/UpdateLocationPage/UpdateLocationPage';
 import UpdateBlogPage from './pages/UpdateBlogPage/UpdateBlogPage';
+import AllSpotPage from './pages/AllSpotPage/AllSpotPage';
 
 const App = () => {
   return (
@@ -38,6 +39,7 @@ const App = () => {
               path="/location/update/:id"
               element={<UpdateLocationPage />}
             />
+            <Route path="/location/all" element={<AllSpotPage />} />
             <Route path="/blog/:id" element={<BlogPage />} />
             <Route path="/blog/add" element={<AddBlogPage />} />
             <Route path="/blog/update/:id" element={<UpdateBlogPage />} />

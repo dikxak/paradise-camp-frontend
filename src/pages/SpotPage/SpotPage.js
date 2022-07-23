@@ -7,6 +7,7 @@ import axios from 'axios';
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en';
 
+import Input from '../../components/ui/Input/Input';
 import Button from '../../components/ui/Button/Button';
 import Card from '../../components/ui/Card/Card';
 import Footer from '../../components/ui/Footer/Footer';
@@ -32,6 +33,9 @@ const timeAgo = new TimeAgo('en-US');
 const SpotPage = props => {
   const navigate = useNavigate();
 
+  const [selectedBookingDate, setSelectedBookingDate] = useState('');
+  const [dateSelectError, setDateSelectError] = useState(false);
+
   const { isLoading, setIsLoading } = useContext(LoadingContext);
   const showMessageCtx = useContext(ShowMessageContext);
 
@@ -43,7 +47,6 @@ const SpotPage = props => {
   const [enteredReviewText, setEnteredReviewText] = useState('');
 
   const { pathname } = useLocation();
-  // console.log(location.pathname.split('/')[2]);
 
   const getAllData = useCallback(async () => {
     const id = pathname.split('/')[2];
@@ -60,14 +63,17 @@ const SpotPage = props => {
 
     setIndividualSpotData(data[0].data.spotData);
     setReviewData(data[1].data.reviewData);
-    console.log(data[1].data.reviewData);
 
     setIsLoading(false);
   }, [setIsLoading, pathname]);
 
   useEffect(() => {
     getAllData();
-  }, [getAllData]);
+
+    if (localStorage.getItem('messageState')) {
+      showMessageCtx.setShowMessage(true, 'Spot booked successfully!');
+    }
+  }, [getAllData, showMessageCtx]);
 
   const reviewChangeHandler = e => {
     setEnteredReviewText(e.target.value);
@@ -91,7 +97,9 @@ const SpotPage = props => {
   };
 
   const removeMessageHandler = () => {
-    showMessageCtx.setShowMessage(false);
+    showMessageCtx.setShowMessage(false, '');
+    localStorage.removeItem('messageState');
+    window.location.reload();
   };
 
   const showWarningMessage = () => {
@@ -104,7 +112,7 @@ const SpotPage = props => {
 
   const deleteSpotHandler = async () => {
     const id = pathname.split('/')[2];
-    console.log(id);
+
     try {
       await axios.delete(`http://localhost:90/spots/delete/${id}`, {
         headers: {
@@ -123,10 +131,20 @@ const SpotPage = props => {
   const bookSpotHandler = async () => {
     const id = pathname.split('/')[2];
 
+    setDateSelectError(false);
+
+    if (selectedBookingDate.trim().length === 0) {
+      setDateSelectError(true);
+      return;
+    }
+
     try {
-      await axios.post(
+      const res = await axios.post(
         'http://localhost:90/bookings',
-        { spotId: id },
+        {
+          spotId: id,
+          bookingDate: new Date(selectedBookingDate).toISOString(),
+        },
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -134,10 +152,18 @@ const SpotPage = props => {
         }
       );
 
-      showMessageCtx.setShowMessage(true, 'Spot booked successfully!');
+      console.log(res);
+
+      setSelectedBookingDate('');
+      localStorage.setItem('messageState', '1');
+      window.location.reload();
     } catch (err) {
       console.error(err.message);
     }
+  };
+
+  const bookingDateChangeHandler = e => {
+    setSelectedBookingDate(e.target.value);
   };
 
   return individualSpotData !== undefined ? (
@@ -182,15 +208,27 @@ const SpotPage = props => {
                   Rs.{individualSpotData.price}/visit
                 </p>
               </div>
-              <Button
-                onClick={bookSpotHandler}
-                disabled={
-                  localStorage.getItem('userId') === individualSpotData.userId
-                }
-                className={styles['button-book']}
-              >
-                Book Spot
-              </Button>
+              <div className={styles['book-container']}>
+                <Input
+                  value={selectedBookingDate}
+                  onChanged={bookingDateChangeHandler}
+                  type="date"
+                />
+                {dateSelectError ? (
+                  <p className={styles['error-message']}>*Required Field.</p>
+                ) : (
+                  ''
+                )}
+                <Button
+                  onClick={bookSpotHandler}
+                  disabled={
+                    localStorage.getItem('userId') === individualSpotData.userId
+                  }
+                  className={styles['button-book']}
+                >
+                  Book Spot
+                </Button>
+              </div>
             </div>
             <ul className={styles['spot-info-list']}>
               <li className={styles['spot-info']}>
@@ -261,7 +299,9 @@ const SpotPage = props => {
                 ]}
               >
                 <Popup>
-                  A pretty CSS3 popup. <br /> Easily customizable.
+                  <p className={styles['popup-para']}>
+                    {individualSpotData.name}.
+                  </p>
                 </Popup>
               </Marker>
             </MapContainer>

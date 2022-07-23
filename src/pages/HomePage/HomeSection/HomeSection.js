@@ -10,7 +10,13 @@ import homeStyles from '../HomePage.module.css';
 const HomeSection = props => {
   return (
     <section className="container overflow-hidden">
-      <h3 className={homeStyles['home-heading']}>{props.sectionHeading}</h3>
+      <h3
+        className={`${homeStyles['home-heading']} ${
+          props.headingStyle && props.headingStyle
+        }`}
+      >
+        {props.sectionHeading}
+      </h3>
       <div className="row row-cols-1 row-cols-md-1 row-cols-lg-2 gx-2 gy-5">
         {props.spotData.map(data => {
           return (
@@ -39,12 +45,6 @@ const HomeSection = props => {
             </div>
           );
         })}
-      </div>
-
-      <div className={styles['view-all-container']}>
-        <NavLink to={'/'} className={styles['view-all-link']}>
-          View All Spots &#8594;
-        </NavLink>
       </div>
     </section>
   );

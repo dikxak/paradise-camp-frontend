@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useCallback, useContext } from 'react';
+import { NavLink } from 'react-router-dom';
+
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 
@@ -12,6 +14,8 @@ import ShowMessageContext from '../../context/ShowMessageContext/show-message-co
 
 import LoadingContext from '../../context/LoadingSpinnerContext/loading-context';
 import LoadingSpinner from '../../components/ui/LoadingSpinner/LoadingSpinner';
+
+import styles from './HomePage.module.css';
 
 const HomePage = props => {
   const showMessageCtx = useContext(ShowMessageContext);
@@ -86,7 +90,17 @@ const HomePage = props => {
         sectionHeading={'Camping Spots'}
         spotData={spotDataCamping.slice(0, 10)}
       />
+      <div className={styles['view-all-container']}>
+        <NavLink to={'/location/all'} className={styles['view-all-link']}>
+          View All Spots &#8594;
+        </NavLink>
+      </div>
       <BlogSection blogData={blogData.slice(0, 6)} />
+      <div className={styles['view-all-container']}>
+        <NavLink to={'/'} className={styles['view-all-link']}>
+          View All Blogs &#8594;
+        </NavLink>
+      </div>
       <Footer />
     </React.Fragment>
   );
