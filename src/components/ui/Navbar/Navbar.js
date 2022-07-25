@@ -97,14 +97,44 @@ const Navbar = () => {
               ''
             )}
             {loginCtx.isLoggedIn ? (
-              <li className="nav-item mx-3">
-                <NavLink
-                  to={'/profile'}
-                  className={`nav-link my-2 px-3 py-3 ${styles['nav-link-username']}`}
+              <li className="nav-item mx-3 dropdown">
+                <a
+                  href="/"
+                  className={`nav-link my-2 px-3 py-3 dropdown-toggle ${styles['nav-link-username']}`}
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
                 >
                   <UserIcon className={styles['nav-icon']} />{' '}
                   {localStorage.getItem('userFullName')}
-                </NavLink>
+                </a>
+                <ul className={`dropdown-menu ${styles['dropdown-menu-bg']}`}>
+                  <li>
+                    <a className="dropdown-item my-2" href="/mylocations">
+                      My Locations
+                    </a>
+                  </li>
+                  <li>
+                    <a className="dropdown-item my-2" href="/myblogs">
+                      My Blogs
+                    </a>
+                  </li>
+                  <li>
+                    <hr className="dropdown-divider" />
+                  </li>
+                  <li>
+                    <a className="dropdown-item my-2" href="/mybookings">
+                      My Bookings
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      className="dropdown-item my-2"
+                      href="/mylocation/bookings"
+                    >
+                      My Location Bookings
+                    </a>
+                  </li>
+                </ul>
               </li>
             ) : (
               ''
