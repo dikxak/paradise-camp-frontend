@@ -95,9 +95,9 @@ const HomePage = props => {
           View All Spots &#8594;
         </NavLink>
       </div>
-      <BlogSection blogData={blogData.slice(0, 6)} />
+      <BlogSection heading={'Blogs'} blogData={blogData.slice(0, 6)} />
       <div className={styles['view-all-container']}>
-        <NavLink to={'/'} className={styles['view-all-link']}>
+        <NavLink to={'/blog/all'} className={styles['view-all-link']}>
           View All Blogs &#8594;
         </NavLink>
       </div>

@@ -13,7 +13,9 @@ import homeStyles from '../HomePage.module.css';
 const BlogSection = props => {
   return (
     <section className="container overflow-hidden">
-      <h3 className={homeStyles['home-heading']}>Blogs</h3>
+      <h3 className={`${homeStyles['home-heading']} ${props.headingStyle}`}>
+        {props.heading}
+      </h3>
       <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 gx-2 gy-5">
         {props.blogData.map((blog, i) => {
           return (

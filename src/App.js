@@ -17,6 +17,7 @@ import AddBlogPage from './pages/AddBlogPage/AddBlogPage';
 import UpdateLocationPage from './pages/UpdateLocationPage/UpdateLocationPage';
 import UpdateBlogPage from './pages/UpdateBlogPage/UpdateBlogPage';
 import AllSpotPage from './pages/AllSpotPage/AllSpotPage';
+import AllBlogPage from './pages/AllBlogPage/AllBlogPage';
 
 const App = () => {
   return (
@@ -43,6 +44,7 @@ const App = () => {
             <Route path="/blog/:id" element={<BlogPage />} />
             <Route path="/blog/add" element={<AddBlogPage />} />
             <Route path="/blog/update/:id" element={<UpdateBlogPage />} />
+            <Route path="/blog/all" element={<AllBlogPage />} />
           </Routes>
         </ShowMessageContextProvider>
       </LoadingContextProvider>
