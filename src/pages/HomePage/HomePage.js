@@ -82,20 +82,32 @@ const HomePage = props => {
         document.getElementById('message-root')
       )}
       <Navbar />
-      <HomeSection
-        sectionHeading={'Picnic Spots'}
-        spotData={spotDataPicnic.slice(0, 10)}
-      />
-      <HomeSection
-        sectionHeading={'Camping Spots'}
-        spotData={spotDataCamping.slice(0, 10)}
-      />
+      {spotDataPicnic.length === 0 ? (
+        <p className="warning-msg">No any data available.</p>
+      ) : (
+        <HomeSection
+          sectionHeading={'Picnic Spots'}
+          spotData={spotDataPicnic.slice(0, 10)}
+        />
+      )}
+      {spotDataCamping.length === 0 ? (
+        <p className="warning-msg">No any data available.</p>
+      ) : (
+        <HomeSection
+          sectionHeading={'Camping Spots'}
+          spotData={spotDataCamping.slice(0, 10)}
+        />
+      )}
       <div className={styles['view-all-container']}>
         <NavLink to={'/location/all'} className={styles['view-all-link']}>
           View All Spots &#8594;
         </NavLink>
       </div>
-      <BlogSection heading={'Blogs'} blogData={blogData.slice(0, 6)} />
+      {blogData.length === 0 ? (
+        <p className="warning-msg">No any data available.</p>
+      ) : (
+        <BlogSection heading={'Blogs'} blogData={blogData.slice(0, 6)} />
+      )}
       <div className={styles['view-all-container']}>
         <NavLink to={'/blog/all'} className={styles['view-all-link']}>
           View All Blogs &#8594;

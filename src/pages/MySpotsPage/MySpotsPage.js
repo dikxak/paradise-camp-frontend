@@ -36,7 +36,7 @@ const MySpotsPage = () => {
     <React.Fragment>
       <Navbar />
       {spotData.length === 0 ? (
-        <p>No any spot available.</p>
+        <p className="warning-msg">No any spot available.</p>
       ) : (
         <HomeSection
           headingStyle={styles['heading-style']}

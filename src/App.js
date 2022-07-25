@@ -18,6 +18,8 @@ import UpdateLocationPage from './pages/UpdateLocationPage/UpdateLocationPage';
 import UpdateBlogPage from './pages/UpdateBlogPage/UpdateBlogPage';
 import AllSpotPage from './pages/AllSpotPage/AllSpotPage';
 import AllBlogPage from './pages/AllBlogPage/AllBlogPage';
+import MySpotsPage from './pages/MySpotsPage/MySpotsPage';
+import MyBlogsPage from './pages/MyBlogsPage/MyBlogsPage';
 
 const App = () => {
   return (
@@ -40,11 +42,13 @@ const App = () => {
               path="/location/update/:id"
               element={<UpdateLocationPage />}
             />
+            <Route path="/mylocations" element={<MySpotsPage />} />
             <Route path="/location/all" element={<AllSpotPage />} />
             <Route path="/blog/:id" element={<BlogPage />} />
             <Route path="/blog/add" element={<AddBlogPage />} />
             <Route path="/blog/update/:id" element={<UpdateBlogPage />} />
             <Route path="/blog/all" element={<AllBlogPage />} />
+            <Route path="/myblogs" element={<MyBlogsPage />} />
           </Routes>
         </ShowMessageContextProvider>
       </LoadingContextProvider>
