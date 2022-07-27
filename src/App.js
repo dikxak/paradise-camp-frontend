@@ -21,6 +21,7 @@ import AllBlogPage from './pages/AllBlogPage/AllBlogPage';
 import MySpotsPage from './pages/MySpotsPage/MySpotsPage';
 import MyBlogsPage from './pages/MyBlogsPage/MyBlogsPage';
 import MyBookingsPage from './pages/MyBookingsPage/MyBookingsPage';
+import MyLocationBookingsPage from './pages/MyLocationBookingsPage/MyLocationBookingsPage';
 
 const App = () => {
   return (
@@ -51,6 +52,10 @@ const App = () => {
             <Route path="/blog/all" element={<AllBlogPage />} />
             <Route path="/myblogs" element={<MyBlogsPage />} />
             <Route path="/mybookings" element={<MyBookingsPage />} />
+            <Route
+              path="/mylocation/bookings"
+              element={<MyLocationBookingsPage />}
+            />
           </Routes>
         </ShowMessageContextProvider>
       </LoadingContextProvider>
