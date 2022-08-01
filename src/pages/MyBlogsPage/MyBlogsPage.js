@@ -15,7 +15,7 @@ const MyBlogsPage = () => {
     const res = await axios.get('http://localhost:90/blogs/get/me', {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     });
-    return res.data.blogData;
+    return res.data.data;
   }, []);
 
   useEffect(() => {

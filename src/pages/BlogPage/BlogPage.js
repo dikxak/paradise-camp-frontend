@@ -39,7 +39,7 @@ const BlogPage = props => {
         },
       });
 
-      setIndividualBlogData(res.data.data);
+      setIndividualBlogData(res.data.blogData);
       setIsLoading(false);
     };
 

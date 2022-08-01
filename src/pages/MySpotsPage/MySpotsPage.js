@@ -17,7 +17,7 @@ const MySpotsPage = () => {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       });
 
-      return res.data.spotData;
+      return res.data.data;
     } catch (err) {
       console.error(err.message);
     }
