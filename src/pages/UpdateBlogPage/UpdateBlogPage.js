@@ -1,21 +1,21 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext } from "react";
 
-import { useLocation, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
 
-import Navbar from '../../components/ui/Navbar/Navbar';
-import Form from '../../components/ui/Form/Form';
-import Input from '../../components/ui/Input/Input';
-import Footer from '../../components/ui/Footer/Footer';
-import Button from '../../components/ui/Button/Button';
-import LoadingSpinner from '../../components/ui/LoadingSpinner/LoadingSpinner';
+import Navbar from "../../components/ui/Navbar/Navbar";
+import Form from "../../components/ui/Form/Form";
+import Input from "../../components/ui/Input/Input";
+import Footer from "../../components/ui/Footer/Footer";
+import Button from "../../components/ui/Button/Button";
+import LoadingSpinner from "../../components/ui/LoadingSpinner/LoadingSpinner";
 
-import LoadingContext from '../../context/LoadingSpinnerContext/loading-context';
-import ShowMessageContext from '../../context/ShowMessageContext/show-message-context';
+import LoadingContext from "../../context/LoadingSpinnerContext/loading-context";
+import ShowMessageContext from "../../context/ShowMessageContext/show-message-context";
 
-import styles from './UpdateBlogPage.module.css';
+import styles from "./UpdateBlogPage.module.css";
 
-import updateBlogImage from '../../assets/images/add-blog-img.jpg';
+import updateBlogImage from "../../assets/images/add-blog-img.jpg";
 
 const UpdateBlogPage = () => {
   const loadingCtx = useContext(LoadingContext);
@@ -50,26 +50,29 @@ const UpdateBlogPage = () => {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    const id = pathname.split('/')[3];
+    const id = pathname.split("/")[3];
 
     const getAllData = async () => {
-      setIsLoading(true);
+      try {
+        setIsLoading(true);
 
-      const res = await axios.get(`http://localhost:90/blogs/${id}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      });
+        const res = await axios.get(`http://localhost:90/blogs/${id}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
 
-      const blogData = res.data.data;
+        const blogData = res.data.blogData;
 
-      setEnteredTitle(blogData.title);
-      setEnteredSubtitle(blogData.subtitle);
-      setEnteredDescription(blogData.description);
+        setEnteredTitle(blogData.title);
+        setEnteredSubtitle(blogData.subtitle);
+        setEnteredDescription(blogData.description);
 
-      setIsLoading(false);
+        setIsLoading(false);
+      } catch (err) {
+        console.log(err.message);
+      }
     };
-
     getAllData();
   }, [pathname, isLoading, setIsLoading]);
 
@@ -78,24 +81,24 @@ const UpdateBlogPage = () => {
 
     const data = new FormData();
 
-    data.append('title', enteredTitle);
-    data.append('subtitle', enteredSubtitle);
-    data.append('description', enteredDescription);
-    data.append('img', uploadedImage);
+    data.append("title", enteredTitle);
+    data.append("subtitle", enteredSubtitle);
+    data.append("description", enteredDescription);
+    data.append("img", uploadedImage);
 
-    const id = pathname.split('/')[3];
+    const id = pathname.split("/")[3];
 
     try {
       loadingCtx.setIsLoading(true);
 
       await axios.put(`http://localhost:90/blogs/update/${id}`, data, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
 
       loadingCtx.setIsLoading(false);
-      showMessageCtx.setShowMessage(true, 'Blog update successful!');
+      showMessageCtx.setShowMessage(true, "Blog update successful!");
       navigate(`/blog/${id}`);
     } catch (err) {
       if (err.response.data.message) {
@@ -111,8 +114,8 @@ const UpdateBlogPage = () => {
       <Form
         onSubmit={updateLocationFormSubmitHandler}
         img={updateBlogImage}
-        heading={'Update blog details'}
-        className={styles['update-blog-container']}
+        heading={"Update blog details"}
+        className={styles["update-blog-container"]}
       >
         <Input
           value={enteredTitle}
@@ -132,7 +135,7 @@ const UpdateBlogPage = () => {
           onChanged={blogSubtitleChangeHandler}
         />
 
-        <div className={styles['description-container']}>
+        <div className={styles["description-container"]}>
           <label htmlFor="description">Spot description</label>
           <textarea
             value={enteredDescription}
@@ -148,7 +151,7 @@ const UpdateBlogPage = () => {
           label="Add spot image"
           onChanged={imageUploadHandler}
         />
-        <Button className={`${styles['btn--update-blog']}`} type="submit">
+        <Button className={`${styles["btn--update-blog"]}`} type="submit">
           Update blog
         </Button>
       </Form>
