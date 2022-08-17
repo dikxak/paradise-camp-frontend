@@ -12,34 +12,36 @@ import styles from './MySpotsPage.module.css';
 
 const MySpotsPage = () => {
   const [spotData, setSpotData] = useState([]);
-  const loadingCtx = useContext(LoadingContext);
+  const { setIsLoading, isLoading } = useContext(LoadingContext);
 
   const getSpots = useCallback(async () => {
     try {
-      loadingCtx.setIsLoading(true);
       const res = await axios.get(
         'https://paradisecamp-backend.herokuapp.com/spots/get/me',
         {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         }
       );
-      loadingCtx.setIsLoading(false);
       return res.data.data;
     } catch (err) {
       console.error(err.message);
     }
-  }, [loadingCtx]);
+  }, []);
 
   useEffect(() => {
     const setSpot = async () => {
+      setIsLoading(true);
+
       const data = await getSpots();
       setSpotData(data);
+
+      setIsLoading(false);
     };
 
     setSpot();
-  });
+  }, [isLoading, getSpots]);
 
-  return loadingCtx.isLoading ? (
+  return isLoading ? (
     <LoadingSpinner />
   ) : (
     <React.Fragment>

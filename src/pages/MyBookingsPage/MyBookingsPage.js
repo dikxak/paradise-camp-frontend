@@ -11,10 +11,9 @@ import styles from './MyBookingsPage.module.css';
 
 const MyBookingsPage = () => {
   const [bookingData, setBookingData] = useState([]);
-  const loadingCtx = useContext(LoadingContext);
+  const { setIsLoading, isLoading } = useContext(LoadingContext);
 
   const getBookingData = useCallback(async () => {
-    loadingCtx.setIsLoading(true);
     const res = await axios.get(
       'https://paradisecamp-backend.herokuapp.com/bookings/get',
       {
@@ -23,20 +22,22 @@ const MyBookingsPage = () => {
         },
       }
     );
-    loadingCtx.setIsLoading(false);
+
     return res.data.bookingData;
   }, [loadingCtx]);
 
   useEffect(() => {
     const setData = async () => {
+      setIsLoading(true);
       const data = await getBookingData();
       setBookingData(data);
+      setIsLoading(false);
     };
 
     setData();
-  }, [getBookingData]);
+  }, [getBookingData, setIsLoading]);
 
-  return loadingCtx.isLoading ? (
+  return isLoading ? (
     <LoadingSpinner />
   ) : (
     <React.Fragment>

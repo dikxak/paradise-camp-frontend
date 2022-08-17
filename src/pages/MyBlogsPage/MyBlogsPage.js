@@ -12,30 +12,30 @@ import styles from './MyBlogsPage.module.css';
 
 const MyBlogsPage = () => {
   const [blogData, setBlogData] = useState([]);
-  const loadingCtx = useContext(LoadingContext);
+  const { setIsLoading, isLoading } = useContext(LoadingContext);
 
   const getBlogData = useCallback(async () => {
-    loadingCtx.setIsLoading(true);
     const res = await axios.get(
       'https://paradisecamp-backend.herokuapp.com/blogs/get/me',
       {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       }
     );
-    loadingCtx.setIsLoading(false);
     return res.data.data;
   }, [loadingCtx]);
 
   useEffect(() => {
     const setData = async () => {
+      setIsLoading(true);
       const data = await getBlogData();
       setBlogData(data);
+      setIsLoading(false);
     };
 
     setData();
-  }, [getBlogData]);
+  }, [setIsLoading, getBlogData]);
 
-  return loadingCtx.isLoading ? (
+  return isLoading ? (
     <LoadingSpinner />
   ) : (
     <React.Fragment>
