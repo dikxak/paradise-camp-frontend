@@ -12,16 +12,14 @@ import styles from './MySpotsPage.module.css';
 
 const MySpotsPage = () => {
   const [spotData, setSpotData] = useState([]);
-  const { setIsLoading, isLoading } = useContext(LoadingContext);
+  const { isLoading, setIsLoading } = useContext(LoadingContext);
 
   const getSpots = useCallback(async () => {
     try {
-      const res = await axios.get(
-        'https://paradisecamp-backend.herokuapp.com/spots/get/me',
-        {
-          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-        }
-      );
+      const res = await axios.get('http://localhost:90/spots/get/me', {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+      });
+      console.log(res);
       return res.data.data;
     } catch (err) {
       console.error(err.message);
@@ -31,15 +29,13 @@ const MySpotsPage = () => {
   useEffect(() => {
     const setSpot = async () => {
       setIsLoading(true);
-
       const data = await getSpots();
       setSpotData(data);
-
       setIsLoading(false);
     };
 
     setSpot();
-  }, [isLoading, getSpots]);
+  }, [getSpots, setIsLoading]);
 
   return isLoading ? (
     <LoadingSpinner />

@@ -5,24 +5,21 @@ import axios from 'axios';
 import Footer from '../../components/ui/Footer/Footer';
 import Navbar from '../../components/ui/Navbar/Navbar';
 import BlogSection from '../HomePage/BlogSection/BlogSection';
-import LoadingSpinner from '../../components/ui/LoadingSpinner/LoadingSpinner';
 import LoadingContext from '../../context/LoadingSpinnerContext/loading-context';
+import LoadingSpinner from '../../components/ui/LoadingSpinner/LoadingSpinner';
 
 import styles from './MyBlogsPage.module.css';
 
 const MyBlogsPage = () => {
+  const { isLoading, setIsLoading } = useContext(LoadingContext);
   const [blogData, setBlogData] = useState([]);
-  const { setIsLoading, isLoading } = useContext(LoadingContext);
 
   const getBlogData = useCallback(async () => {
-    const res = await axios.get(
-      'https://paradisecamp-backend.herokuapp.com/blogs/get/me',
-      {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-      }
-    );
+    const res = await axios.get('http://localhost:90/blogs/get/me', {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    });
     return res.data.data;
-  }, [loadingCtx]);
+  }, []);
 
   useEffect(() => {
     const setData = async () => {
@@ -34,7 +31,6 @@ const MyBlogsPage = () => {
 
     setData();
   }, [setIsLoading, getBlogData]);
-
   return isLoading ? (
     <LoadingSpinner />
   ) : (

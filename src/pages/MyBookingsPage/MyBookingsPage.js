@@ -1,30 +1,26 @@
 import React, { useState, useEffect, useCallback, useContext } from 'react';
 import axios from 'axios';
-
 import Footer from '../../components/ui/Footer/Footer';
 import Navbar from '../../components/ui/Navbar/Navbar';
 import Card from '../../components/ui/Card/Card';
-import LoadingSpinner from '../../components/ui/LoadingSpinner/LoadingSpinner';
 import LoadingContext from '../../context/LoadingSpinnerContext/loading-context';
+import LoadingSpinner from '../../components/ui/LoadingSpinner/LoadingSpinner';
 
 import styles from './MyBookingsPage.module.css';
 
 const MyBookingsPage = () => {
+  const { isLoading, setIsLoading } = useContext(LoadingContext);
   const [bookingData, setBookingData] = useState([]);
-  const { setIsLoading, isLoading } = useContext(LoadingContext);
 
   const getBookingData = useCallback(async () => {
-    const res = await axios.get(
-      'https://paradisecamp-backend.herokuapp.com/bookings/get',
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      }
-    );
+    const res = await axios.get('http://localhost:90/bookings/get', {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
 
     return res.data.bookingData;
-  }, [loadingCtx]);
+  }, []);
 
   useEffect(() => {
     const setData = async () => {
@@ -35,7 +31,7 @@ const MyBookingsPage = () => {
     };
 
     setData();
-  }, [getBookingData, setIsLoading]);
+  }, [setIsLoading, getBookingData]);
 
   return isLoading ? (
     <LoadingSpinner />
