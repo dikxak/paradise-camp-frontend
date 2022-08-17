@@ -1,30 +1,34 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useContext } from 'react';
 
-import axios from "axios";
+import axios from 'axios';
 
-import Footer from "../../components/ui/Footer/Footer";
-import Navbar from "../../components/ui/Navbar/Navbar";
-import HomeSection from "../HomePage/HomeSection/HomeSection";
+import Footer from '../../components/ui/Footer/Footer';
+import Navbar from '../../components/ui/Navbar/Navbar';
+import HomeSection from '../HomePage/HomeSection/HomeSection';
+import LoadingContext from '../../context/LoadingSpinnerContext/loading-context';
+import LoadingSpinner from '../../components/ui/LoadingSpinner/LoadingSpinner';
 
-import styles from "./MySpotsPage.module.css";
+import styles from './MySpotsPage.module.css';
 
 const MySpotsPage = () => {
   const [spotData, setSpotData] = useState([]);
+  const loadingCtx = useContext(LoadingContext);
 
   const getSpots = useCallback(async () => {
     try {
+      loadingCtx.isLoading(true);
       const res = await axios.get(
-        "https://paradisecamp-backend.herokuapp.com/spots/get/me",
+        'https://paradisecamp-backend.herokuapp.com/spots/get/me',
         {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         }
       );
-
+      loadingCtx.isLoading(false);
       return res.data.data;
     } catch (err) {
       console.error(err.message);
     }
-  }, []);
+  }, [loadingCtx]);
 
   useEffect(() => {
     const setSpot = async () => {
@@ -42,9 +46,9 @@ const MySpotsPage = () => {
         <p className="warning-msg">No any spot available.</p>
       ) : (
         <HomeSection
-          headingStyle={styles["heading-style"]}
+          headingStyle={styles['heading-style']}
           spotData={spotData}
-          sectionHeading={`${localStorage.getItem("userFullName")}'s Spots`}
+          sectionHeading={`${localStorage.getItem('userFullName')}'s Spots`}
         />
       )}
       <Footer />
