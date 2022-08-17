@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-import axios from 'axios';
+import axios from "axios";
 
-import LoginContext from './login-context';
+import LoginContext from "./login-context";
 
 const LoginContextProvider = props => {
   const navigate = useNavigate();
@@ -12,27 +12,30 @@ const LoginContextProvider = props => {
   const [invalidCredentials, setInvalidCredentials] = useState(false);
 
   useEffect(() => {
-    if (localStorage.getItem('token')) {
+    if (localStorage.getItem("token")) {
       setIsLoggedIn(true);
     }
   }, []);
 
   const loginHandler = async (email, password) => {
     try {
-      const response = await axios.post('http://localhost:90/users/login', {
-        email: email,
-        password: password,
-      });
+      const response = await axios.post(
+        "https://paradisecamp-backend.herokuapp.com//users/login",
+        {
+          email: email,
+          password: password,
+        }
+      );
 
       if (response.status === 200) {
         console.log(response);
         setIsLoggedIn(true);
 
-        localStorage.setItem('token', response.data.token);
-        localStorage.setItem('userId', response.data.userId);
-        localStorage.setItem('userFullName', response.data.userName);
+        localStorage.setItem("token", response.data.token);
+        localStorage.setItem("userId", response.data.userId);
+        localStorage.setItem("userFullName", response.data.userName);
 
-        navigate('/home');
+        navigate("/home");
       }
     } catch (err) {
       setInvalidCredentials(true);
@@ -43,10 +46,10 @@ const LoginContextProvider = props => {
   const logoutHandler = () => {
     setIsLoggedIn(false);
 
-    localStorage.removeItem('token');
-    localStorage.removeItem('userId');
+    localStorage.removeItem("token");
+    localStorage.removeItem("userId");
 
-    navigate('/');
+    navigate("/");
     window.location.reload();
   };
 

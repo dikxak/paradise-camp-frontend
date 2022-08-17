@@ -56,11 +56,14 @@ const UpdateBlogPage = () => {
       try {
         setIsLoading(true);
 
-        const res = await axios.get(`http://localhost:90/blogs/${id}`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        });
+        const res = await axios.get(
+          `https://paradisecamp-backend.herokuapp.com/blogs/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
 
         const blogData = res.data.blogData;
 
@@ -91,11 +94,15 @@ const UpdateBlogPage = () => {
     try {
       loadingCtx.setIsLoading(true);
 
-      await axios.put(`http://localhost:90/blogs/update/${id}`, data, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+      await axios.put(
+        `https://paradisecamp-backend.herokuapp.com/blogs/update/${id}`,
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
 
       loadingCtx.setIsLoading(false);
       showMessageCtx.setShowMessage(true, "Blog update successful!");

@@ -1,31 +1,31 @@
-import React from 'react';
+import React from "react";
 
-import { Routes, Route, Navigate } from 'react-router-dom';
-import LoadingContextProvider from './context/LoadingSpinnerContext/LoadingContextProvider';
+import { Routes, Route, Navigate } from "react-router-dom";
+import LoadingContextProvider from "./context/LoadingSpinnerContext/LoadingContextProvider";
 
-import LoginContextProvider from './context/LoginContext/LoginContextProvider';
-import ShowMessageContextProvider from './context/ShowMessageContext/ShowMessageContextProvider';
+import LoginContextProvider from "./context/LoginContext/LoginContextProvider";
+import ShowMessageContextProvider from "./context/ShowMessageContext/ShowMessageContextProvider";
 
-import LandingPage from './pages/LandingPage/LandingPage';
-import LoginPage from './pages/LoginPage/LoginPage';
-import SignupPage from './pages/SignupPage/SignupPage';
-import HomePage from './pages/HomePage/HomePage';
-import AddLocationPage from './pages/AddLocationPage/AddLocationPage';
-import SpotPage from './pages/SpotPage/SpotPage';
-import BlogPage from './pages/BlogPage/BlogPage';
-import AddBlogPage from './pages/AddBlogPage/AddBlogPage';
-import UpdateLocationPage from './pages/UpdateLocationPage/UpdateLocationPage';
-import UpdateBlogPage from './pages/UpdateBlogPage/UpdateBlogPage';
-import AllSpotPage from './pages/AllSpotPage/AllSpotPage';
-import AllBlogPage from './pages/AllBlogPage/AllBlogPage';
-import MySpotsPage from './pages/MySpotsPage/MySpotsPage';
-import MyBlogsPage from './pages/MyBlogsPage/MyBlogsPage';
-import MyBookingsPage from './pages/MyBookingsPage/MyBookingsPage';
-import MyLocationBookingsPage from './pages/MyLocationBookingsPage/MyLocationBookingsPage';
+import LandingPage from "./pages/LandingPage/LandingPage";
+import LoginPage from "./pages/LoginPage/LoginPage";
+import SignupPage from "./pages/SignupPage/SignupPage";
+import HomePage from "./pages/HomePage/HomePage";
+import AddLocationPage from "./pages/AddLocationPage/AddLocationPage";
+import SpotPage from "./pages/SpotPage/SpotPage";
+import BlogPage from "./pages/BlogPage/BlogPage";
+import AddBlogPage from "./pages/AddBlogPage/AddBlogPage";
+import UpdateLocationPage from "./pages/UpdateLocationPage/UpdateLocationPage";
+import UpdateBlogPage from "./pages/UpdateBlogPage/UpdateBlogPage";
+import AllSpotPage from "./pages/AllSpotPage/AllSpotPage";
+import AllBlogPage from "./pages/AllBlogPage/AllBlogPage";
+import MySpotsPage from "./pages/MySpotsPage/MySpotsPage";
+import MyBlogsPage from "./pages/MyBlogsPage/MyBlogsPage";
+import MyBookingsPage from "./pages/MyBookingsPage/MyBookingsPage";
+import MyLocationBookingsPage from "./pages/MyLocationBookingsPage/MyLocationBookingsPage";
 
 const App = () => {
   const ProtectedRoute = props => {
-    if (!localStorage.getItem('token')) {
+    if (!localStorage.getItem("token")) {
       return <Navigate to="/" replace />;
     }
 
@@ -39,7 +39,7 @@ const App = () => {
             <Route
               path="/"
               element={
-                localStorage.getItem('token') ? <HomePage /> : <LandingPage />
+                localStorage.getItem("token") ? <HomePage /> : <LandingPage />
               }
             />
             <Route path="/login" element={<LoginPage />} />

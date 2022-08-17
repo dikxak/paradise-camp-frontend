@@ -1,11 +1,11 @@
-import React from 'react';
+import React from "react";
 
-import styles from './HeroSection.module.css';
+import styles from "./HeroSection.module.css";
 
 const HeroSection = () => {
   return (
-    <header className={`container-fluid ${styles['header']}`}>
-      <div className={styles['content-container']}>
+    <header className={`container-fluid ${styles["header"]}`}>
+      <div className={styles["content-container"]}>
         <h1 className="primary-heading text-uppercase">
           The real life lies on the woods in the lap of nature
         </h1>

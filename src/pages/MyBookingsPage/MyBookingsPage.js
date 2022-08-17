@@ -1,20 +1,23 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import axios from 'axios';
-import Footer from '../../components/ui/Footer/Footer';
-import Navbar from '../../components/ui/Navbar/Navbar';
-import Card from '../../components/ui/Card/Card';
+import React, { useState, useEffect, useCallback } from "react";
+import axios from "axios";
+import Footer from "../../components/ui/Footer/Footer";
+import Navbar from "../../components/ui/Navbar/Navbar";
+import Card from "../../components/ui/Card/Card";
 
-import styles from './MyBookingsPage.module.css';
+import styles from "./MyBookingsPage.module.css";
 
 const MyBookingsPage = () => {
   const [bookingData, setBookingData] = useState([]);
 
   const getBookingData = useCallback(async () => {
-    const res = await axios.get('http://localhost:90/bookings/get', {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-    });
+    const res = await axios.get(
+      "https://paradisecamp-backend.herokuapp.com/bookings/get",
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
 
     return res.data.bookingData;
   }, []);
@@ -32,8 +35,8 @@ const MyBookingsPage = () => {
     <React.Fragment>
       <Navbar />
       <section className="container overflow-hidden">
-        <h3 className={styles['booking-heading']}>
-          {`${localStorage.getItem('userFullName')}'s Bookings`}
+        <h3 className={styles["booking-heading"]}>
+          {`${localStorage.getItem("userFullName")}'s Bookings`}
         </h3>
         <div className="row row-cols-1 row-cols-md-1 row-cols-lg-2 gx-3 gy-5">
           {bookingData.map(item => {
@@ -43,24 +46,24 @@ const MyBookingsPage = () => {
                 key={item._id}
               >
                 <Card
-                  className={`${styles['booking-container']} grid grid--2-cols`}
+                  className={`${styles["booking-container"]} grid grid--2-cols`}
                 >
                   <img
                     src={item.spotData[0].imageURL}
                     alt="Night Sky"
-                    className={`${styles['booking-img']}`}
+                    className={`${styles["booking-img"]}`}
                   />
-                  <div className={styles['booking-contents']}>
-                    <h4 className={styles['spot-name']}>
+                  <div className={styles["booking-contents"]}>
+                    <h4 className={styles["spot-name"]}>
                       Spot Name: {item.spotData[0].name}
                     </h4>
-                    <p className={styles['booking-date']}>
-                      Booking Date:{' '}
-                      {new Date(item.date).toLocaleDateString('en-US', {
-                        dateStyle: 'full',
+                    <p className={styles["booking-date"]}>
+                      Booking Date:{" "}
+                      {new Date(item.date).toLocaleDateString("en-US", {
+                        dateStyle: "full",
                       })}
                     </p>
-                    <p className={styles['booking-id']}>
+                    <p className={styles["booking-id"]}>
                       Booking ID: {item._id}
                     </p>
                   </div>

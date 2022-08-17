@@ -1,29 +1,29 @@
-import React, { useState, useReducer, useContext } from 'react';
-import ReactDOM from 'react-dom';
-import axios from 'axios';
+import React, { useState, useReducer, useContext } from "react";
+import ReactDOM from "react-dom";
+import axios from "axios";
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
-import Navbar from '../../components/ui/Navbar/Navbar';
-import Footer from '../../components/ui/Footer/Footer';
-import Form from '../../components/ui/Form/Form';
-import Input from '../../components/ui/Input/Input';
-import Button from '../../components/ui/Button/Button';
-import LoadingSpinner from '../../components/ui/LoadingSpinner/LoadingSpinner';
-import LoadingContext from '../../context/LoadingSpinnerContext/loading-context';
+import Navbar from "../../components/ui/Navbar/Navbar";
+import Footer from "../../components/ui/Footer/Footer";
+import Form from "../../components/ui/Form/Form";
+import Input from "../../components/ui/Input/Input";
+import Button from "../../components/ui/Button/Button";
+import LoadingSpinner from "../../components/ui/LoadingSpinner/LoadingSpinner";
+import LoadingContext from "../../context/LoadingSpinnerContext/loading-context";
 
-import styles from './SignupPage.module.css';
+import styles from "./SignupPage.module.css";
 
-import loginImg from '../../assets/images/signup-img.jpg';
-import Message from '../../components/ui/Message/Message';
+import loginImg from "../../assets/images/signup-img.jpg";
+import Message from "../../components/ui/Message/Message";
 
 const initialEmailState = {
-  value: '',
+  value: "",
   isValid: false,
 };
 
 const initialPasswordState = {
-  value: '',
+  value: "",
   isValid: false,
 };
 
@@ -35,23 +35,23 @@ const simulateLoading = function (sec) {
 };
 
 const emailReducer = (state, action) => {
-  if (action.type === 'USER_INPUT') {
-    return { value: action.val, isValid: action.val.trim().includes('@') };
+  if (action.type === "USER_INPUT") {
+    return { value: action.val, isValid: action.val.trim().includes("@") };
   }
 
-  if (action.type === 'INPUT_BLUR') {
-    return { value: state.value, isValid: state.value.trim().includes('@') };
+  if (action.type === "INPUT_BLUR") {
+    return { value: state.value, isValid: state.value.trim().includes("@") };
   }
 
   return initialEmailState;
 };
 
 const passwordReducer = (state, action) => {
-  if (action.type === 'USER_INPUT') {
+  if (action.type === "USER_INPUT") {
     return { value: action.val, isValid: action.val.length > 6 };
   }
 
-  if (action.type === 'INPUT_BLUR') {
+  if (action.type === "INPUT_BLUR") {
     return { value: state.value, isValid: state.value.length > 6 };
   }
 
@@ -72,11 +72,11 @@ const SignupPage = () => {
     initialPasswordState
   );
 
-  const [enteredFirstName, setEnteredFirstName] = useState('');
-  const [enteredLastName, setEnteredLastName] = useState('');
-  const [enteredDob, setEnteredDob] = useState('');
-  const [enteredPhone, setEnteredPhone] = useState('');
-  const [enteredConfirmPassword, setEnteredConfirmPassword] = useState('');
+  const [enteredFirstName, setEnteredFirstName] = useState("");
+  const [enteredLastName, setEnteredLastName] = useState("");
+  const [enteredDob, setEnteredDob] = useState("");
+  const [enteredPhone, setEnteredPhone] = useState("");
+  const [enteredConfirmPassword, setEnteredConfirmPassword] = useState("");
 
   const [confirmPasswordError, setConfirmPasswordError] = useState(false);
   const [userExistsError, setUserExistsError] = useState(false);
@@ -96,7 +96,7 @@ const SignupPage = () => {
   };
 
   const emailChangeHandler = e => {
-    dispatchEmail({ type: 'USER_INPUT', val: e.target.value });
+    dispatchEmail({ type: "USER_INPUT", val: e.target.value });
   };
 
   const dobChangeHandler = e => {
@@ -108,7 +108,7 @@ const SignupPage = () => {
   };
 
   const passwordChangeHandler = e => {
-    dispatchPassword({ type: 'USER_INPUT', val: e.target.value });
+    dispatchPassword({ type: "USER_INPUT", val: e.target.value });
   };
 
   const confirmPasswordChangeHandler = e => {
@@ -126,10 +126,10 @@ const SignupPage = () => {
   };
 
   const resetValue = () => {
-    setEnteredFirstName('');
-    setEnteredLastName('');
-    setEnteredDob('');
-    setEnteredPhone('');
+    setEnteredFirstName("");
+    setEnteredLastName("");
+    setEnteredDob("");
+    setEnteredPhone("");
   };
 
   const registerFormSubmitHandler = async e => {
@@ -182,10 +182,13 @@ const SignupPage = () => {
       // will delete later
       await simulateLoading(2);
 
-      await axios.post('http://localhost:90/users/register', data);
+      await axios.post(
+        "https://paradisecamp-backend.herokuapp.com/users/register",
+        data
+      );
 
       loadingCtx.setIsLoading(false);
-      navigate('/login');
+      navigate("/login");
 
       resetValue();
     } catch (err) {
@@ -206,19 +209,19 @@ const SignupPage = () => {
       {loadingCtx.isLoading && <LoadingSpinner />}
       {ReactDOM.createPortal(
         <Message
-          containerName={'success-message-container'}
+          containerName={"success-message-container"}
           state="error"
-          className={userExistsError ? 'reveal' : ''}
+          className={userExistsError ? "reveal" : ""}
           message="User already exists"
           onClick={removeErrorMessageHandler}
         />,
-        document.getElementById('message-root')
+        document.getElementById("message-root")
       )}
       <Navbar />
       <Form
         onSubmit={registerFormSubmitHandler}
         img={loginImg}
-        heading={'Create your account'}
+        heading={"Create your account"}
       >
         <Input
           id="firstName"
@@ -230,7 +233,7 @@ const SignupPage = () => {
         {firstNameError ? (
           <p className="error-message">*First name can not be empty.</p>
         ) : (
-          ''
+          ""
         )}
         <Input
           id="lastName"
@@ -242,7 +245,7 @@ const SignupPage = () => {
         {lastNameError ? (
           <p className="error-message">*Last name can not be empty.</p>
         ) : (
-          ''
+          ""
         )}
         <Input
           isValid={emailState.isValid}
@@ -255,7 +258,7 @@ const SignupPage = () => {
         {emailError ? (
           <p className="error-message">*Please enter email address.</p>
         ) : (
-          ''
+          ""
         )}
         <Input
           id="dob"
@@ -267,7 +270,7 @@ const SignupPage = () => {
         {dobError ? (
           <p className="error-message">*Please enter date of birth.</p>
         ) : (
-          ''
+          ""
         )}
         <Input
           id="phone"
@@ -279,7 +282,7 @@ const SignupPage = () => {
         {phoneLengthError ? (
           <p className="error-message">*Length of phone number must be ten.</p>
         ) : (
-          ''
+          ""
         )}
 
         <Input
@@ -302,9 +305,9 @@ const SignupPage = () => {
             *Password and confirm password must match.
           </p>
         ) : (
-          ''
+          ""
         )}
-        <Button className={`${styles['btn--signup']}`} type="submit">
+        <Button className={`${styles["btn--signup"]}`} type="submit">
           sign up
         </Button>
       </Form>

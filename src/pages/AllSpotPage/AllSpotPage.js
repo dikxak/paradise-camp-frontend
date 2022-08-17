@@ -1,17 +1,17 @@
-import React, { useCallback, useEffect, useState, useContext } from 'react';
+import React, { useCallback, useEffect, useState, useContext } from "react";
 
-import { MapContainer, Popup, TileLayer, Marker } from 'react-leaflet';
+import { MapContainer, Popup, TileLayer, Marker } from "react-leaflet";
 
-import axios from 'axios';
+import axios from "axios";
 
-import Navbar from '../../components/ui/Navbar/Navbar';
-import Footer from '../../components/ui/Footer/Footer';
+import Navbar from "../../components/ui/Navbar/Navbar";
+import Footer from "../../components/ui/Footer/Footer";
 
-import styles from './AllSpotPage.module.css';
-import HomeSection from '../HomePage/HomeSection/HomeSection';
-import LoadingSpinner from '../../components/ui/LoadingSpinner/LoadingSpinner';
+import styles from "./AllSpotPage.module.css";
+import HomeSection from "../HomePage/HomeSection/HomeSection";
+import LoadingSpinner from "../../components/ui/LoadingSpinner/LoadingSpinner";
 
-import LoadingContext from '../../context/LoadingSpinnerContext/loading-context';
+import LoadingContext from "../../context/LoadingSpinnerContext/loading-context";
 
 const AllSpotPage = () => {
   const { setIsLoading, isLoading } = useContext(LoadingContext);
@@ -21,7 +21,9 @@ const AllSpotPage = () => {
 
   const getCoordsData = useCallback(async () => {
     try {
-      const res = await axios.get('http://localhost:90/spots/all/coords');
+      const res = await axios.get(
+        "https://paradisecamp-backend.herokuapp.com/spots/all/coords"
+      );
       console.log(res.data.allCoords);
 
       return res.data.allCoords;
@@ -32,7 +34,9 @@ const AllSpotPage = () => {
 
   const getAllSpots = useCallback(async () => {
     try {
-      const res = await axios.get('http://localhost:90/spots/all');
+      const res = await axios.get(
+        "https://paradisecamp-backend.herokuapp.com/spots/all"
+      );
       return res.data.data;
     } catch (err) {
       console.error(err.message);
@@ -59,7 +63,7 @@ const AllSpotPage = () => {
     <React.Fragment>
       <Navbar />
       {coordsData.length === 0 ? (
-        ''
+        ""
       ) : (
         <MapContainer
           id="map"
@@ -80,7 +84,7 @@ const AllSpotPage = () => {
                 position={[+coords.latitude, +coords.longitude]}
               >
                 <Popup>
-                  <p className={styles['popup-para']}>{coords.name}.</p>
+                  <p className={styles["popup-para"]}>{coords.name}.</p>
                 </Popup>
               </Marker>
             );
@@ -88,11 +92,11 @@ const AllSpotPage = () => {
         </MapContainer>
       )}
       {spotData.length === 0 ? (
-        ''
+        ""
       ) : (
         <HomeSection
-          headingStyle={styles['heading-style']}
-          sectionHeading={'All Locations'}
+          headingStyle={styles["heading-style"]}
+          sectionHeading={"All Locations"}
           spotData={spotData}
         />
       )}

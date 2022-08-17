@@ -1,20 +1,20 @@
-import React, { useState, useEffect, useContext } from 'react';
-import ReactDOM from 'react-dom';
+import React, { useState, useEffect, useContext } from "react";
+import ReactDOM from "react-dom";
 
-import axios from 'axios';
-import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import axios from "axios";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 
-import Navbar from '../../components/ui/Navbar/Navbar';
-import Button from '../../components/ui/Button/Button';
-import Footer from '../../components/ui/Footer/Footer';
-import Message from '../../components/ui/Message/Message';
-import WarningCard from '../../components/ui/WarningCard/WarningCard';
+import Navbar from "../../components/ui/Navbar/Navbar";
+import Button from "../../components/ui/Button/Button";
+import Footer from "../../components/ui/Footer/Footer";
+import Message from "../../components/ui/Message/Message";
+import WarningCard from "../../components/ui/WarningCard/WarningCard";
 
-import ShowMessageContext from '../../context/ShowMessageContext/show-message-context';
-import LoadingContext from '../../context/LoadingSpinnerContext/loading-context';
+import ShowMessageContext from "../../context/ShowMessageContext/show-message-context";
+import LoadingContext from "../../context/LoadingSpinnerContext/loading-context";
 
-import styles from './BlogPage.module.css';
-import LoadingSpinner from '../../components/ui/LoadingSpinner/LoadingSpinner';
+import styles from "./BlogPage.module.css";
+import LoadingSpinner from "../../components/ui/LoadingSpinner/LoadingSpinner";
 
 const BlogPage = props => {
   const navigate = useNavigate();
@@ -28,16 +28,19 @@ const BlogPage = props => {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    const id = pathname.split('/')[2];
+    const id = pathname.split("/")[2];
 
     const getBlogData = async () => {
       setIsLoading(true);
 
-      const res = await axios.get(`http://localhost:90/blogs/${id}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      });
+      const res = await axios.get(
+        `https://paradisecamp-backend.herokuapp.com/blogs/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
 
       setIndividualBlogData(res.data.blogData);
       setIsLoading(false);
@@ -59,18 +62,21 @@ const BlogPage = props => {
   };
 
   const deleteBlogHandler = async () => {
-    const id = pathname.split('/')[2];
+    const id = pathname.split("/")[2];
     console.log(id);
     try {
-      await axios.delete(`http://localhost:90/blogs/delete/${id}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      });
+      await axios.delete(
+        `https://paradisecamp-backend.herokuapp.com/blogs/delete/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
 
-      showMessageCtx.setShowMessage(true, 'Blog delete successful!');
+      showMessageCtx.setShowMessage(true, "Blog delete successful!");
 
-      navigate('/');
+      navigate("/");
     } catch (err) {
       console.error(err.message);
     }
@@ -80,13 +86,13 @@ const BlogPage = props => {
     <React.Fragment>
       {ReactDOM.createPortal(
         <Message
-          containerName={'success-message-container'}
+          containerName={"success-message-container"}
           state="success"
-          className={showMessageCtx.showMessage ? 'reveal' : ''}
+          className={showMessageCtx.showMessage ? "reveal" : ""}
           message={showMessageCtx.message}
           onClick={removeMessageHandler}
         />,
-        document.getElementById('message-root')
+        document.getElementById("message-root")
       )}
       {showWarning
         ? ReactDOM.createPortal(
@@ -94,23 +100,23 @@ const BlogPage = props => {
               onClose={closeWarningMessage}
               onClick={deleteBlogHandler}
             />,
-            document.getElementById('message-root')
+            document.getElementById("message-root")
           )
-        : ''}
+        : ""}
       <Navbar />
-      <section className={`container ${styles['blog-container']}`}>
+      <section className={`container ${styles["blog-container"]}`}>
         <header>
-          <h2 className={`secondary-heading ${styles['blog-heading']}`}>
+          <h2 className={`secondary-heading ${styles["blog-heading"]}`}>
             {individualBlogData.title}
           </h2>
-          <h4 className={styles['blog-subtitle']}>
+          <h4 className={styles["blog-subtitle"]}>
             {individualBlogData.subtitle}
           </h4>
-          <p className={styles['blog-meta-info']}>
-            Posted by <b>{individualBlogData.authorName}</b> on{' '}
+          <p className={styles["blog-meta-info"]}>
+            Posted by <b>{individualBlogData.authorName}</b> on{" "}
             {new Date(individualBlogData.writtenDate).toLocaleDateString(
-              'en-US',
-              { dateStyle: 'full' }
+              "en-US",
+              { dateStyle: "full" }
             )}
           </p>
         </header>
@@ -119,7 +125,7 @@ const BlogPage = props => {
           <img
             src={individualBlogData.imageURL}
             alt="Bitcoin"
-            className={styles['blog-img']}
+            className={styles["blog-img"]}
           />
           {/* <div className={styles['blog-description-container']}>
             {individualBlogData.description
@@ -128,28 +134,28 @@ const BlogPage = props => {
                 return <p key={i}>{paragraph}</p>;
               })}
           </div> */}
-          <p className={styles['blog-description']}>
+          <p className={styles["blog-description"]}>
             {individualBlogData.description}
           </p>
         </main>
         <footer>
-          {localStorage.getItem('userId') === individualBlogData.userId ? (
-            <ul className={styles['user-control-list']}>
+          {localStorage.getItem("userId") === individualBlogData.userId ? (
+            <ul className={styles["user-control-list"]}>
               <NavLink
-                to={`/blog/update/${pathname.split('/')[2]}`}
-                className={styles['button-update']}
+                to={`/blog/update/${pathname.split("/")[2]}`}
+                className={styles["button-update"]}
               >
                 Update Blog
               </NavLink>
               <Button
                 onClick={showWarningMessage}
-                className={styles['button-delete']}
+                className={styles["button-delete"]}
               >
                 Delete Blog
               </Button>
             </ul>
           ) : (
-            ''
+            ""
           )}
         </footer>
       </section>

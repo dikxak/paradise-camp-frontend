@@ -1,28 +1,28 @@
-import React, { useReducer, useState, useContext } from 'react';
-import ReactDOM from 'react-dom';
+import React, { useReducer, useState, useContext } from "react";
+import ReactDOM from "react-dom";
 
-import axios from 'axios';
+import axios from "axios";
 
-import Navbar from '../../components/ui/Navbar/Navbar';
-import Form from '../../components/ui/Form/Form';
-import Input from '../../components/ui/Input/Input';
-import Button from '../../components/ui/Button/Button';
-import Footer from '../../components/ui/Footer/Footer';
-import Message from '../../components/ui/Message/Message';
+import Navbar from "../../components/ui/Navbar/Navbar";
+import Form from "../../components/ui/Form/Form";
+import Input from "../../components/ui/Input/Input";
+import Button from "../../components/ui/Button/Button";
+import Footer from "../../components/ui/Footer/Footer";
+import Message from "../../components/ui/Message/Message";
 
-import addBlogImage from '../../assets/images/add-blog-img.jpg';
-import styles from './AddBlogPage.module.css';
+import addBlogImage from "../../assets/images/add-blog-img.jpg";
+import styles from "./AddBlogPage.module.css";
 
-import LoadingContext from '../../context/LoadingSpinnerContext/loading-context';
-import LoadingSpinner from '../../components/ui/LoadingSpinner/LoadingSpinner';
+import LoadingContext from "../../context/LoadingSpinnerContext/loading-context";
+import LoadingSpinner from "../../components/ui/LoadingSpinner/LoadingSpinner";
 
 const initialBlogState = {
-  value: '',
+  value: "",
   isValid: false,
 };
 
 const blogReducer = (state, action) => {
-  if (action.type === 'USER_INPUT') {
+  if (action.type === "USER_INPUT") {
     return { value: action.value, isValid: action.value.trim().length !== 0 };
   }
   return initialBlogState;
@@ -58,13 +58,13 @@ const AddBlogPage = () => {
   const [blogCreateError, setBlogCreateError] = useState(false);
 
   const blogTitleChangeHandler = e => {
-    dispatchBlogTitle({ type: 'USER_INPUT', value: e.target.value });
+    dispatchBlogTitle({ type: "USER_INPUT", value: e.target.value });
   };
   const blogSubtitleChangeHandler = e => {
-    dispatchBlogSubtitle({ type: 'USER_INPUT', value: e.target.value });
+    dispatchBlogSubtitle({ type: "USER_INPUT", value: e.target.value });
   };
   const blogDescriptionChangeHandler = e => {
-    dispatchBlogDescription({ type: 'USER_INPUT', value: e.target.value });
+    dispatchBlogDescription({ type: "USER_INPUT", value: e.target.value });
   };
   const imageUploadHandler = e => {
     setUploadedImage(e.target.files[0]);
@@ -98,20 +98,24 @@ const AddBlogPage = () => {
 
     const data = new FormData();
 
-    data.append('title', blogTitleState.value);
-    data.append('subtitle', blogSubtitleState.value);
+    data.append("title", blogTitleState.value);
+    data.append("subtitle", blogSubtitleState.value);
 
-    data.append('description', blogDescriptionState.value);
-    data.append('img', uploadedImage);
+    data.append("description", blogDescriptionState.value);
+    data.append("img", uploadedImage);
 
     try {
       loadingCtx.setIsLoading(true);
 
-      const res = await axios.post('http://localhost:90/blogs/add', data, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      });
+      const res = await axios.post(
+        "https://paradisecamp-backend.herokuapp.com/blogs/add",
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
 
       setIsBlogCreated(true);
       loadingCtx.setIsLoading(false);
@@ -136,33 +140,33 @@ const AddBlogPage = () => {
       {ReactDOM.createPortal(
         <Message
           state={`${
-            blogCreateError ? 'error' : isBlogCreated ? 'success' : ''
+            blogCreateError ? "error" : isBlogCreated ? "success" : ""
           }`}
-          className={isBlogCreated || blogCreateError ? 'reveal' : ''}
+          className={isBlogCreated || blogCreateError ? "reveal" : ""}
           message={
             blogCreateError
-              ? 'Error while adding blog!'
+              ? "Error while adding blog!"
               : isBlogCreated
-              ? 'Blog created successfully!'
-              : ''
+              ? "Blog created successfully!"
+              : ""
           }
           onClick={removeMessageHandler}
           containerName={
             blogCreateError
-              ? 'error-message-container'
+              ? "error-message-container"
               : isBlogCreated
-              ? 'success-message-container'
-              : ''
+              ? "success-message-container"
+              : ""
           }
         />,
-        document.getElementById('message-root')
+        document.getElementById("message-root")
       )}
       <Navbar />
       <Form
         onSubmit={addBlogFormSubmitHandler}
         img={addBlogImage}
-        heading={'Add blog'}
-        className={styles['add-blog-container']}
+        heading={"Add blog"}
+        className={styles["add-blog-container"]}
       >
         <Input
           id="blogTitle"
@@ -174,7 +178,7 @@ const AddBlogPage = () => {
         {blogTitleError ? (
           <p className="error-message">*Blog title can not be empty.</p>
         ) : (
-          ''
+          ""
         )}
 
         <Input
@@ -188,9 +192,9 @@ const AddBlogPage = () => {
         {blogSubtitleError ? (
           <p className="error-message">*Blog subtitle can not be empty.</p>
         ) : (
-          ''
+          ""
         )}
-        <div className={styles['description-container']}>
+        <div className={styles["description-container"]}>
           <label htmlFor="blogDescription">Spot description</label>
           <textarea
             id="blogDescription"
@@ -201,7 +205,7 @@ const AddBlogPage = () => {
         {blogDescriptionError ? (
           <p className="error-message">*Blog description can not be empty.</p>
         ) : (
-          ''
+          ""
         )}
 
         <Input
@@ -210,7 +214,7 @@ const AddBlogPage = () => {
           label="Add blog image"
           onChanged={imageUploadHandler}
         />
-        <Button className={`${styles['btn--add-blog']}`} type="submit">
+        <Button className={`${styles["btn--add-blog"]}`} type="submit">
           Add Blog
         </Button>
       </Form>

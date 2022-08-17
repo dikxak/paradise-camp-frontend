@@ -1,47 +1,47 @@
-import React, { useReducer, useState, useContext } from 'react';
-import ReactDOM from 'react-dom';
+import React, { useReducer, useState, useContext } from "react";
+import ReactDOM from "react-dom";
 
-import axios from 'axios';
+import axios from "axios";
 
-import Navbar from '../../components/ui/Navbar/Navbar';
-import Form from '../../components/ui/Form/Form';
-import Input from '../../components/ui/Input/Input';
-import Select from '../../components/ui/Select/Select';
-import Button from '../../components/ui/Button/Button';
-import Footer from '../../components/ui/Footer/Footer';
-import Message from '../../components/ui/Message/Message';
+import Navbar from "../../components/ui/Navbar/Navbar";
+import Form from "../../components/ui/Form/Form";
+import Input from "../../components/ui/Input/Input";
+import Select from "../../components/ui/Select/Select";
+import Button from "../../components/ui/Button/Button";
+import Footer from "../../components/ui/Footer/Footer";
+import Message from "../../components/ui/Message/Message";
 
-import addLocationImg from '../../assets/images/add-location-img.jpg';
-import styles from './AddLocationPage.module.css';
+import addLocationImg from "../../assets/images/add-location-img.jpg";
+import styles from "./AddLocationPage.module.css";
 
-import LoadingContext from '../../context/LoadingSpinnerContext/loading-context';
-import LoadingSpinner from '../../components/ui/LoadingSpinner/LoadingSpinner';
+import LoadingContext from "../../context/LoadingSpinnerContext/loading-context";
+import LoadingSpinner from "../../components/ui/LoadingSpinner/LoadingSpinner";
 
 const initialCoordsState = {
-  latValue: '',
-  lngValue: '',
+  latValue: "",
+  lngValue: "",
   isLatValueValid: false,
   isLngValueValid: false,
 };
 
 const initialSpotState = {
-  value: '',
+  value: "",
   isValid: false,
 };
 
 const initialSpotPhoneState = {
-  value: '',
+  value: "",
   isValid: false,
   isLengthValid: false,
 };
 
 const initialSpotEmailState = {
-  value: '',
+  value: "",
   isValid: false,
 };
 
 const coordsReducer = (state, action) => {
-  if (action.type === 'USER_INPUT' && action.latVal) {
+  if (action.type === "USER_INPUT" && action.latVal) {
     return {
       latValue: action.latVal,
       lngValue: state.lngValue,
@@ -50,7 +50,7 @@ const coordsReducer = (state, action) => {
     };
   }
 
-  if (action.type === 'USER_INPUT' && action.lngVal) {
+  if (action.type === "USER_INPUT" && action.lngVal) {
     return {
       latValue: state.latValue,
       lngValue: action.lngVal,
@@ -61,14 +61,14 @@ const coordsReducer = (state, action) => {
   return initialCoordsState;
 };
 const spotReducer = (state, action) => {
-  if (action.type === 'USER_INPUT') {
+  if (action.type === "USER_INPUT") {
     return { value: action.value, isValid: action.value.trim().length !== 0 };
   }
   return initialSpotState;
 };
 
 const spotPhoneReducer = (state, action) => {
-  if (action.type === 'USER_INPUT') {
+  if (action.type === "USER_INPUT") {
     return {
       value: action.value,
       isValid: action.value.trim().length !== 0,
@@ -79,7 +79,7 @@ const spotPhoneReducer = (state, action) => {
   return initialSpotPhoneState;
 };
 const spotEmailReducer = (state, action) => {
-  if (action.type === 'USER_INPUT') {
+  if (action.type === "USER_INPUT") {
     return { value: action.value, isValid: action.value.trim().length !== 0 };
   }
 };
@@ -142,38 +142,38 @@ const AddLocationPage = () => {
   const [spotCreateError, setSpotCreateError] = useState(false);
 
   const spotNameChangeHandler = e => {
-    dispatchSpotName({ type: 'USER_INPUT', value: e.target.value });
+    dispatchSpotName({ type: "USER_INPUT", value: e.target.value });
   };
   const spotAddressChangeHandler = e => {
-    dispatchSpotAddress({ type: 'USER_INPUT', value: e.target.value });
+    dispatchSpotAddress({ type: "USER_INPUT", value: e.target.value });
   };
   const spotNoChangeHandler = e => {
-    dispatchSpotNo({ type: 'USER_INPUT', value: e.target.value });
+    dispatchSpotNo({ type: "USER_INPUT", value: e.target.value });
   };
 
   const latitudeChangeHandler = e => {
     console.log(e.target.value);
-    dispatchCoords({ type: 'USER_INPUT', latVal: e.target.value });
+    dispatchCoords({ type: "USER_INPUT", latVal: e.target.value });
   };
   const longitudeChangeHandler = e => {
-    dispatchCoords({ type: 'USER_INPUT', lngVal: e.target.value });
+    dispatchCoords({ type: "USER_INPUT", lngVal: e.target.value });
   };
 
   const spotPhoneChangeHandler = e => {
-    dispatchSpotPhone({ type: 'USER_INPUT', value: e.target.value });
+    dispatchSpotPhone({ type: "USER_INPUT", value: e.target.value });
   };
   const spotEmailChangeHandler = e => {
-    dispatchSpotEmail({ type: 'USER_INPUT', value: e.target.value });
+    dispatchSpotEmail({ type: "USER_INPUT", value: e.target.value });
   };
   const spotPriceChangeHandler = e => {
-    dispatchSpotPrice({ type: 'USER_INPUT', value: e.target.value });
+    dispatchSpotPrice({ type: "USER_INPUT", value: e.target.value });
   };
   const spotDescriptionChangeHandler = e => {
-    dispatchSpotDescription({ type: 'USER_INPUT', value: e.target.value });
+    dispatchSpotDescription({ type: "USER_INPUT", value: e.target.value });
   };
 
   const spotTypeChangeHandler = e => {
-    dispatchSpotType({ type: 'USER_INPUT', value: e.target.value });
+    dispatchSpotType({ type: "USER_INPUT", value: e.target.value });
   };
 
   const imageUploadHandler = e => {
@@ -252,26 +252,30 @@ const AddLocationPage = () => {
 
     const data = new FormData();
 
-    data.append('name', spotNameState.value);
-    data.append('address', spotAddressState.value);
-    data.append('availableSpotNo', +spotNoState.value);
-    data.append('type', spotTypeState.value);
-    data.append('latitude', coordsState.latValue);
-    data.append('longitude', coordsState.lngValue);
-    data.append('phoneNo', spotPhoneState.value);
-    data.append('email', spotEmailState.value);
-    data.append('price', +spotPriceState.value);
-    data.append('description', spotDescriptionState.value);
-    data.append('img', uploadedImage);
+    data.append("name", spotNameState.value);
+    data.append("address", spotAddressState.value);
+    data.append("availableSpotNo", +spotNoState.value);
+    data.append("type", spotTypeState.value);
+    data.append("latitude", coordsState.latValue);
+    data.append("longitude", coordsState.lngValue);
+    data.append("phoneNo", spotPhoneState.value);
+    data.append("email", spotEmailState.value);
+    data.append("price", +spotPriceState.value);
+    data.append("description", spotDescriptionState.value);
+    data.append("img", uploadedImage);
 
     try {
       loadingCtx.setIsLoading(true);
 
-      const res = await axios.post('http://localhost:90/spots/add', data, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      });
+      const res = await axios.post(
+        "https://paradisecamp-backend.herokuapp.com/spots/add",
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
 
       setIsSpotCreated(true);
       loadingCtx.setIsLoading(false);
@@ -289,11 +293,11 @@ const AddLocationPage = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         e => {
-          dispatchCoords({ type: 'USER_INPUT', lngVal: e.coords.longitude });
-          dispatchCoords({ type: 'USER_INPUT', latVal: e.coords.latitude });
+          dispatchCoords({ type: "USER_INPUT", lngVal: e.coords.longitude });
+          dispatchCoords({ type: "USER_INPUT", latVal: e.coords.latitude });
         },
         () => {
-          alert('Could not get your position!');
+          alert("Could not get your position!");
         }
       );
     }
@@ -310,33 +314,33 @@ const AddLocationPage = () => {
       {ReactDOM.createPortal(
         <Message
           state={`${
-            spotCreateError ? 'error' : isSpotCreated ? 'success' : ''
+            spotCreateError ? "error" : isSpotCreated ? "success" : ""
           }`}
-          className={isSpotCreated || spotCreateError ? 'reveal' : ''}
+          className={isSpotCreated || spotCreateError ? "reveal" : ""}
           message={
             spotCreateError
-              ? 'Spot name already exists!'
+              ? "Spot name already exists!"
               : isSpotCreated
-              ? 'Spot created successfully!'
-              : ''
+              ? "Spot created successfully!"
+              : ""
           }
           onClick={removeMessageHandler}
           containerName={
             spotCreateError
-              ? 'error-message-container'
+              ? "error-message-container"
               : isSpotCreated
-              ? 'success-message-container'
-              : ''
+              ? "success-message-container"
+              : ""
           }
         />,
-        document.getElementById('message-root')
+        document.getElementById("message-root")
       )}
       <Navbar />
       <Form
         onSubmit={addLocationFormSubmitHandler}
         img={addLocationImg}
-        heading={'Add spot details'}
-        className={styles['add-location-container']}
+        heading={"Add spot details"}
+        className={styles["add-location-container"]}
       >
         <Input
           id="spotName"
@@ -348,7 +352,7 @@ const AddLocationPage = () => {
         {spotNameError ? (
           <p className="error-message">*Spot name can not be empty.</p>
         ) : (
-          ''
+          ""
         )}
         <Input
           id="spotAddress"
@@ -360,7 +364,7 @@ const AddLocationPage = () => {
         {spotAddressError ? (
           <p className="error-message">*Spot address can not be empty.</p>
         ) : (
-          ''
+          ""
         )}
         <Input
           id="spotNoAvailable"
@@ -372,7 +376,7 @@ const AddLocationPage = () => {
         {spotNoError ? (
           <p className="error-message">*Spot number can not be empty.</p>
         ) : (
-          ''
+          ""
         )}
         <Select
           onChanged={spotTypeChangeHandler}
@@ -382,11 +386,11 @@ const AddLocationPage = () => {
         {spotTypeError ? (
           <p className="error-message">*Type must be selected.</p>
         ) : (
-          ''
+          ""
         )}
-        <div className={styles['coords-container']}>
+        <div className={styles["coords-container"]}>
           <label htmlFor="latitude">Spot coordinates</label>
-          <div className={styles['inputs-container']}>
+          <div className={styles["inputs-container"]}>
             <input
               type="number"
               id="latitude"
@@ -405,7 +409,7 @@ const AddLocationPage = () => {
 
             <Button
               onClick={getCurrentPosition}
-              className={styles['btn-coords']}
+              className={styles["btn-coords"]}
             >
               Get current location
             </Button>
@@ -416,7 +420,7 @@ const AddLocationPage = () => {
             *Latitude and Longitude value are required.
           </p>
         ) : (
-          ''
+          ""
         )}
 
         <Input
@@ -429,7 +433,7 @@ const AddLocationPage = () => {
         {spotPhoneError ? (
           <p className="error-message">*Phone number can not be empty.</p>
         ) : (
-          ''
+          ""
         )}
         <Input
           id="spotEmail"
@@ -441,7 +445,7 @@ const AddLocationPage = () => {
         {spotEmailError ? (
           <p className="error-message">*Email can not be empty.</p>
         ) : (
-          ''
+          ""
         )}
         <Input
           id="spotPrice"
@@ -455,9 +459,9 @@ const AddLocationPage = () => {
         {spotPriceError ? (
           <p className="error-message">*Spot price can not be empty.</p>
         ) : (
-          ''
+          ""
         )}
-        <div className={styles['description-container']}>
+        <div className={styles["description-container"]}>
           <label htmlFor="description">Spot description</label>
           <textarea
             id="description"
@@ -468,7 +472,7 @@ const AddLocationPage = () => {
         {spotDescriptionError ? (
           <p className="error-message">*Spot description can not be empty.</p>
         ) : (
-          ''
+          ""
         )}
         <Input
           id="spotImg"
@@ -476,7 +480,7 @@ const AddLocationPage = () => {
           label="Add spot image"
           onChanged={imageUploadHandler}
         />
-        <Button className={`${styles['btn--add-spot']}`} type="submit">
+        <Button className={`${styles["btn--add-spot"]}`} type="submit">
           Add spot
         </Button>
       </Form>

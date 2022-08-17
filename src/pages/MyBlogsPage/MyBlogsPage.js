@@ -1,20 +1,23 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect } from "react";
 
-import axios from 'axios';
+import axios from "axios";
 
-import Footer from '../../components/ui/Footer/Footer';
-import Navbar from '../../components/ui/Navbar/Navbar';
-import BlogSection from '../HomePage/BlogSection/BlogSection';
+import Footer from "../../components/ui/Footer/Footer";
+import Navbar from "../../components/ui/Navbar/Navbar";
+import BlogSection from "../HomePage/BlogSection/BlogSection";
 
-import styles from './MyBlogsPage.module.css';
+import styles from "./MyBlogsPage.module.css";
 
 const MyBlogsPage = () => {
   const [blogData, setBlogData] = useState([]);
 
   const getBlogData = useCallback(async () => {
-    const res = await axios.get('http://localhost:90/blogs/get/me', {
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-    });
+    const res = await axios.get(
+      "https://paradisecamp-backend.herokuapp.com/blogs/get/me",
+      {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      }
+    );
     return res.data.data;
   }, []);
 
@@ -33,8 +36,8 @@ const MyBlogsPage = () => {
         <p className="warning-msg">No any blog data.</p>
       ) : (
         <BlogSection
-          headingStyle={styles['heading-style']}
-          heading={`${localStorage.getItem('userFullName')}'s Blogs`}
+          headingStyle={styles["heading-style"]}
+          heading={`${localStorage.getItem("userFullName")}'s Blogs`}
           blogData={blogData}
         />
       )}
