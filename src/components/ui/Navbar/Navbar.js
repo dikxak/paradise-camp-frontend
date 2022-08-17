@@ -118,22 +118,22 @@ const Navbar = () => {
                       My Blogs
                     </a>
                   </li>
-                  <li>
+                  {/* <li>
                     <hr className="dropdown-divider" />
-                  </li>
+                  </li> */}
                   <li>
                     <a className="dropdown-item my-2" href="/mybookings">
                       My Bookings
                     </a>
                   </li>
-                  <li>
+                  {/* <li>
                     <a
                       className="dropdown-item my-2"
                       href="/mylocation/bookings"
                     >
                       My Location Bookings
                     </a>
-                  </li>
+                  </li> */}
                 </ul>
               </li>
             ) : (
