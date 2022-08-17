@@ -45,40 +45,44 @@ const MyBookingsPage = () => {
         <h3 className={styles['booking-heading']}>
           {`${localStorage.getItem('userFullName')}'s Bookings`}
         </h3>
-        <div className="row row-cols-1 row-cols-md-1 row-cols-lg-2 gx-3 gy-5">
-          {bookingData.map(item => {
-            return (
-              <div
-                className="col p-4 justify-self-stretch align-self-stretch"
-                key={item._id}
-              >
-                <Card
-                  className={`${styles['booking-container']} grid grid--2-cols`}
+        {bookingData.length === 0 ? (
+          <p className="warning-msg">No any blog data.</p>
+        ) : (
+          <div className="row row-cols-1 row-cols-md-1 row-cols-lg-2 gx-3 gy-5">
+            {bookingData.map(item => {
+              return (
+                <div
+                  className="col p-4 justify-self-stretch align-self-stretch"
+                  key={item._id}
                 >
-                  <img
-                    src={item.spotData[0].imageURL}
-                    alt="Night Sky"
-                    className={`${styles['booking-img']}`}
-                  />
-                  <div className={styles['booking-contents']}>
-                    <h4 className={styles['spot-name']}>
-                      Spot Name: {item.spotData[0].name}
-                    </h4>
-                    <p className={styles['booking-date']}>
-                      Booking Date:{' '}
-                      {new Date(item.date).toLocaleDateString('en-US', {
-                        dateStyle: 'full',
-                      })}
-                    </p>
-                    <p className={styles['booking-id']}>
-                      Booking ID: {item._id}
-                    </p>
-                  </div>
-                </Card>
-              </div>
-            );
-          })}
-        </div>
+                  <Card
+                    className={`${styles['booking-container']} grid grid--2-cols`}
+                  >
+                    <img
+                      src={item.spotData[0].imageURL}
+                      alt="Night Sky"
+                      className={`${styles['booking-img']}`}
+                    />
+                    <div className={styles['booking-contents']}>
+                      <h4 className={styles['spot-name']}>
+                        Spot Name: {item.spotData[0].name}
+                      </h4>
+                      <p className={styles['booking-date']}>
+                        Booking Date:{' '}
+                        {new Date(item.date).toLocaleDateString('en-US', {
+                          dateStyle: 'full',
+                        })}
+                      </p>
+                      <p className={styles['booking-id']}>
+                        Booking ID: {item._id}
+                      </p>
+                    </div>
+                  </Card>
+                </div>
+              );
+            })}
+          </div>
+        )}
       </section>
 
       <Footer />
