@@ -15,14 +15,14 @@ const MyBlogsPage = () => {
   const loadingCtx = useContext(LoadingContext);
 
   const getBlogData = useCallback(async () => {
-    loadingCtx.isLoading(true);
+    loadingCtx.setIsLoading(true);
     const res = await axios.get(
       'https://paradisecamp-backend.herokuapp.com/blogs/get/me',
       {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       }
     );
-    loadingCtx.isLoading(false);
+    loadingCtx.setIsLoading(false);
     return res.data.data;
   }, [loadingCtx]);
 
@@ -34,6 +34,7 @@ const MyBlogsPage = () => {
 
     setData();
   }, [getBlogData]);
+
   return loadingCtx.isLoading ? (
     <LoadingSpinner />
   ) : (

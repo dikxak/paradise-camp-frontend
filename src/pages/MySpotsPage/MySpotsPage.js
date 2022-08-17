@@ -16,14 +16,14 @@ const MySpotsPage = () => {
 
   const getSpots = useCallback(async () => {
     try {
-      loadingCtx.isLoading(true);
+      loadingCtx.setIsLoading(true);
       const res = await axios.get(
         'https://paradisecamp-backend.herokuapp.com/spots/get/me',
         {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         }
       );
-      loadingCtx.isLoading(false);
+      loadingCtx.setIsLoading(false);
       return res.data.data;
     } catch (err) {
       console.error(err.message);
@@ -39,7 +39,9 @@ const MySpotsPage = () => {
     setSpot();
   });
 
-  return (
+  return loadingCtx.isLoading ? (
+    <LoadingSpinner />
+  ) : (
     <React.Fragment>
       <Navbar />
       {spotData.length === 0 ? (
