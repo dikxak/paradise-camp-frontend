@@ -15,9 +15,12 @@ const MyBlogsPage = () => {
   const [blogData, setBlogData] = useState([]);
 
   const getBlogData = useCallback(async () => {
-    const res = await axios.get('http://localhost:90/blogs/get/me', {
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-    });
+    const res = await axios.get(
+      'https://paradisecamp-backend.herokuapp.com/blogs/get/me',
+      {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+      }
+    );
     return res.data.data;
   }, []);
 

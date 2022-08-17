@@ -16,9 +16,12 @@ const MySpotsPage = () => {
 
   const getSpots = useCallback(async () => {
     try {
-      const res = await axios.get('http://localhost:90/spots/get/me', {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-      });
+      const res = await axios.get(
+        'https://paradisecamp-backend.herokuapp.com/spots/get/me',
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+        }
+      );
       console.log(res);
       return res.data.data;
     } catch (err) {
