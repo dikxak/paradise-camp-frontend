@@ -46,7 +46,7 @@ const MyBookingsPage = () => {
           {`${localStorage.getItem('userFullName')}'s Bookings`}
         </h3>
         {bookingData.length === 0 ? (
-          <p className="warning-msg">No any blog data.</p>
+          <p className="warning-msg">No any booking data.</p>
         ) : (
           <div className="row row-cols-1 row-cols-md-1 row-cols-lg-2 gx-3 gy-5">
             {bookingData.map(item => {
