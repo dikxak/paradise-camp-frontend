@@ -14,7 +14,7 @@ const MyBookingsPage = () => {
 
   const getBookingData = useCallback(async () => {
     const res = await axios.get(
-      'https://paradisecamp-backend.herokuapp.com/get',
+      'https://paradisecamp-backend.herokuapp.com/bookings/get',
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
