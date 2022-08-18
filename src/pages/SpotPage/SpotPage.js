@@ -148,7 +148,7 @@ const SpotPage = props => {
         'https://paradisecamp-backend.herokuapp.com/bookings',
         {
           spotId: id,
-          bookingDate: new Date(selectedBookingDate).toISOString(),
+          date: new Date(selectedBookingDate).toISOString(),
         },
         {
           headers: {
