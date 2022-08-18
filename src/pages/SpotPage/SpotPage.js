@@ -161,7 +161,7 @@ const SpotPage = props => {
 
       setSelectedBookingDate('');
       localStorage.setItem('messageState', '1');
-      // window.location.reload();
+      window.location.reload();
     } catch (err) {
       console.error(err.message);
     }
