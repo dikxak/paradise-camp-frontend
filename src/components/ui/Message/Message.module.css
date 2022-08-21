@@ -54,7 +54,7 @@
   width: 100%;
   height: 99vh;
   z-index: 90;
-  transform: translateY(-80rem);
+  transform: translateY(-100rem);
 }
 
 .reveal {
