@@ -53,31 +53,28 @@ const UpdateBlogPage = () => {
     const id = pathname.split('/')[3];
 
     const getAllData = async () => {
-      try {
-        setIsLoading(true);
+      setIsLoading(true);
 
-        const res = await axios.get(
-          `https://paradisecamp-backend.herokuapp.com/blogs/${id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem('token')}`,
-            },
-          }
-        );
+      const res = await axios.get(
+        `https://paradisecamp-backend.herokuapp.com/blogs/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        }
+      );
 
-        setIsLoading(false);
+      setIsLoading(false);
 
-        const blogData = res.data.blogData;
+      const blogData = res.data.blogData;
 
-        setEnteredTitle(blogData.title);
-        setEnteredSubtitle(blogData.subtitle);
-        setEnteredDescription(blogData.description);
-      } catch (err) {
-        console.log(err.message);
-      }
+      setEnteredTitle(blogData.title);
+      setEnteredSubtitle(blogData.subtitle);
+      setEnteredDescription(blogData.description);
     };
+
     getAllData();
-  }, [pathname, isLoading, setIsLoading]);
+  }, [pathname, setIsLoading]);
 
   const updateLocationFormSubmitHandler = async e => {
     e.preventDefault();
@@ -92,7 +89,7 @@ const UpdateBlogPage = () => {
     const id = pathname.split('/')[3];
 
     try {
-      loadingCtx.setIsLoading(true);
+      setIsLoading(true);
 
       await axios.put(
         `https://paradisecamp-backend.herokuapp.com/blogs/update/${id}`,
@@ -104,19 +101,19 @@ const UpdateBlogPage = () => {
         }
       );
 
-      loadingCtx.setIsLoading(false);
+      setIsLoading(false);
       showMessageCtx.setShowMessage(true, 'Blog update successful!');
       navigate(`/blog/${id}`);
     } catch (err) {
       if (err.response.data.message) {
-        loadingCtx.setIsLoading(false);
+        setIsLoading(false);
       }
     }
   };
 
   return (
     <React.Fragment>
-      {loadingCtx.isLoading && <LoadingSpinner />}
+      {isLoading && <LoadingSpinner />}
       <Navbar />
       <Form
         onSubmit={updateLocationFormSubmitHandler}
