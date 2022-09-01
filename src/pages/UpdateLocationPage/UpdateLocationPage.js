@@ -1,23 +1,23 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext } from 'react';
 
-import { useLocation, useNavigate } from "react-router-dom";
-import axios from "axios";
+import { useLocation, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
-import Navbar from "../../components/ui/Navbar/Navbar";
-import Form from "../../components/ui/Form/Form";
-import Input from "../../components/ui/Input/Input";
-import Select from "../../components/ui/Select/Select";
-import Footer from "../../components/ui/Footer/Footer";
-import Button from "../../components/ui/Button/Button";
-import LoadingSpinner from "../../components/ui/LoadingSpinner/LoadingSpinner";
+import Navbar from '../../components/ui/Navbar/Navbar';
+import Form from '../../components/ui/Form/Form';
+import Input from '../../components/ui/Input/Input';
+import Select from '../../components/ui/Select/Select';
+import Footer from '../../components/ui/Footer/Footer';
+import Button from '../../components/ui/Button/Button';
+import LoadingSpinner from '../../components/ui/LoadingSpinner/LoadingSpinner';
 
-import LoadingContext from "../../context/LoadingSpinnerContext/loading-context";
-import ShowMessageContext from "../../context/ShowMessageContext/show-message-context";
+import LoadingContext from '../../context/LoadingSpinnerContext/loading-context';
+import ShowMessageContext from '../../context/ShowMessageContext/show-message-context';
 
-import styles from "./UpdateLocationPage.module.css";
+import styles from './UpdateLocationPage.module.css';
 
-import "./UpdateLocationPage.module.css";
-import updateLocationImage from "../../assets/images/update-location-img.jpg";
+import './UpdateLocationPage.module.css';
+import updateLocationImage from '../../assets/images/update-location-img.jpg';
 
 const UpdateLocationPage = () => {
   const loadingCtx = useContext(LoadingContext);
@@ -89,7 +89,7 @@ const UpdateLocationPage = () => {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    const id = pathname.split("/")[3];
+    const id = pathname.split('/')[3];
 
     const getAllData = async () => {
       setIsLoading(true);
@@ -98,7 +98,7 @@ const UpdateLocationPage = () => {
         `https://paradisecamp-backend.herokuapp.com/spots/${id}`,
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
         }
       );
@@ -121,29 +121,29 @@ const UpdateLocationPage = () => {
     };
 
     getAllData();
-  }, [pathname, isLoading, setIsLoading]);
+  }, [pathname, setIsLoading]);
 
   const updateLocationFormSubmitHandler = async e => {
     e.preventDefault();
 
     const data = new FormData();
 
-    data.append("name", enteredName);
-    data.append("address", enteredAddress);
+    data.append('name', enteredName);
+    data.append('address', enteredAddress);
     data.append(
-      "availableSpotNo",
+      'availableSpotNo',
       enteredAvailableSpotNo ? +enteredAvailableSpotNo : undefined
     );
-    data.append("type", selectedSpotType);
-    data.append("latitude", enteredLatitude);
-    data.append("longitude", enteredLongitude);
-    data.append("phoneNo", enteredPhone);
-    data.append("email", enteredEmail);
-    data.append("price", enteredPrice ? +enteredPrice : undefined);
-    data.append("description", enteredDescription);
-    data.append("img", uploadedImage);
+    data.append('type', selectedSpotType);
+    data.append('latitude', enteredLatitude);
+    data.append('longitude', enteredLongitude);
+    data.append('phoneNo', enteredPhone);
+    data.append('email', enteredEmail);
+    data.append('price', enteredPrice ? +enteredPrice : undefined);
+    data.append('description', enteredDescription);
+    data.append('img', uploadedImage);
 
-    const id = pathname.split("/")[3];
+    const id = pathname.split('/')[3];
 
     try {
       loadingCtx.setIsLoading(true);
@@ -153,13 +153,13 @@ const UpdateLocationPage = () => {
         data,
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
         }
       );
 
       loadingCtx.setIsLoading(false);
-      showMessageCtx.setShowMessage(true, "Spot update successful!");
+      showMessageCtx.setShowMessage(true, 'Spot update successful!');
       navigate(`/location/${id}`);
     } catch (err) {
       if (err.response.data.message) {
@@ -174,8 +174,8 @@ const UpdateLocationPage = () => {
       <Form
         onSubmit={updateLocationFormSubmitHandler}
         img={updateLocationImage}
-        heading={"Update spot details"}
-        className={styles["update-location-container"]}
+        heading={'Update spot details'}
+        className={styles['update-location-container']}
       >
         <Input
           value={enteredName}
@@ -211,9 +211,9 @@ const UpdateLocationPage = () => {
           label="Select spot type"
         />
 
-        <div className={styles["coords-container"]}>
+        <div className={styles['coords-container']}>
           <label htmlFor="latitude">Spot coordinates</label>
-          <div className={styles["inputs-container"]}>
+          <div className={styles['inputs-container']}>
             <input
               value={enteredLatitude}
               type="number"
@@ -268,7 +268,7 @@ const UpdateLocationPage = () => {
           onChanged={spotPriceChangeHandler}
         />
 
-        <div className={styles["description-container"]}>
+        <div className={styles['description-container']}>
           <label htmlFor="description">Spot description</label>
           <textarea
             value={enteredDescription}
@@ -284,7 +284,7 @@ const UpdateLocationPage = () => {
           label="Add spot image"
           onChanged={imageUploadHandler}
         />
-        <Button className={`${styles["btn--update-spot"]}`} type="submit">
+        <Button className={`${styles['btn--update-spot']}`} type="submit">
           Update spot
         </Button>
       </Form>
@@ -293,7 +293,7 @@ const UpdateLocationPage = () => {
   ) : isLoading ? (
     <LoadingSpinner />
   ) : (
-    ""
+    ''
   );
 };
 
